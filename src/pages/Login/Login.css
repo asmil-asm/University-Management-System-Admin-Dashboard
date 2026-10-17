@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+
+.login{
+    @apply grid grid-cols-2 max-xl:grid-cols-1 items-center
+}
+.login .image{
+
+    @apply relative bg-cover w-full h-full
+}
+.login .image img{
+    @apply h-screen w-full 
+}
+.login .image .shadow{
+    @apply absolute w-full h-full bg-[var(--color-light-shadow)]/70 top-0 left-0
+}
+.login .form{
+    @apply p-5 flex  items-center flex-col gap-y-4 max-xl:p-3 max-xl:mt-10
+    
+}
+.login .form h1{
+    @apply text-4xl font-bold text-[var(--color-light-main)] 
+}
+.login .form  .icon{
+    @apply text-[var(--color-light-main)] text-5xl
+}
+.login .form form{
+    @apply flex flex-col  gap-y-5 shadow-2xl w-[500px]   rounded-xl p-5  max-md:w-[300px]
+}
+.login .form form label{
+@apply text-[var(--font-lower)] text-[var(--color-dark-text)]
+}
+.login .form form input{
+    @apply border-1 border-[var(--color-light-text)] rounded-xl p-4  bg-transparent
+    focus:border-[var(--color-main)]
+}
+.login .form form button{
+    @apply bg-[var(--color-light-main)] text-white p-2 rounded-xl hover:bg-[var(--color-dark-shadow)]
+}

@@ -1,0 +1,10 @@
+   @import "tailwindcss";
+
+.page{
+       @apply p-6 w-full
+
+}
+
+.page .image{
+    @apply w-[60px] h-[60px] object-cover rounded-full;
+}

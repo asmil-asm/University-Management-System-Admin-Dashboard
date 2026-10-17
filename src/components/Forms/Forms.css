@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+.form-container{
+    @apply fixed inset-0 bg-black/40 flex items-center justify-center z-50;
+}
+.form-box{
+    @apply  w-[400px] p-6 rounded-2xl shadow-xl
+    max-md:w-[300px] overflow-auto h-[500px]
+}
+.form-box h2{
+    @apply text-center text-2xl font-bold mb-5
+}
+.form-box label{
+    @apply capitalize text-[18px]
+}
+.form-box select{
+    @apply my-5  rounded-xl border-1 border-gray-500 py-1 px-3 block w-full
+        placeholder:text-gray-500 focus:border-gray-300
+
+}
+.form-box input{
+    @apply w-full border border-gray-500 rounded-lg p-3 mb-4 outline-none mt-3
+    placeholder:text-gray-500 focus:border-gray-300 
+}
+.form-control {
+    @apply w-[200px] block outline-none border-1 border-gray-500
+     rounded-lg p-3 mb-4 outline-none mt-3
+    placeholder:text-gray-500 focus:border-gray-300
+}
+
+.form-action{
+    @apply flex items-center justify-end gap-3 mt-5
+}
+.save-btn{
+    @apply bg-[var(--color-light-main)] text-white rounded-lg cursor-pointer px-5 py-2
+}
+.cancel-btn{
+    @apply bg-gray-300 text-black rounded-lg cursor-pointer px-5 py-2
+}

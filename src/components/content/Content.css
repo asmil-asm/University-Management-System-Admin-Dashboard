@@ -1,0 +1,17 @@
+@import "tailwindcss";
+.content{
+        @apply fixed inset-0 bg-black/40 flex items-center justify-center z-50;
+
+}
+.content .box{
+ @apply w-[400px] p-8 rounded-2xl shadow-xl
+ max-md:w-[300px] h-[500px] bg-white;
+}
+.content .box p{
+    @apply break-words
+}
+
+.cancel{
+ @apply bg-[var(--color-light-main)] text-white mt-[200px] py-2 rounded-xl
+         hover:bg-blue-800;
+ }

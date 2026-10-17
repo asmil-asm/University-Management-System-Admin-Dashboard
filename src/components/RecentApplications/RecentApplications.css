@@ -1,0 +1,17 @@
+@import "tailwindcss";
+.recent{
+     @apply  p-5 pb-10 rounded-2xl shadow-xl  
+    h-full max-2xl:w-full overflow-y-auto
+}
+.recent .info{
+    @apply flex justify-between items-center p-1 
+}
+
+.recent .info .text{
+    @apply flex items-center text-2xl 
+    gap-x-2
+}
+.recent .info button{
+    @apply text-[15px] hover:text-[#999]
+
+}

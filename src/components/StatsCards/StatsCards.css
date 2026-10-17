@@ -1,0 +1,31 @@
+@import "tailwindcss";
+ .stat-cards{
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    @apply grid  mt-[50px] p-4 text-center gap-5
+}
+ .stat-cards .card{
+    @apply  shadow-xl rounded-2xl p-4 cursor-pointer hover:-translate-y-1 duration-200
+flex flex-col gap-y-4  items-center 
+}
+ .stat-cards .card .icon{
+    @apply  text-4xl
+}
+ .stat-cards .card .number{
+    @apply text-xl font-bold 
+}
+ .stat-cards .card .name{
+    @apply text-[18px] 
+}
+ .stat-cards .card .line{
+    @apply text-xl flex items-center
+}
+ .stat-cards .card .up{
+    @apply text-green-500
+}
+ .stat-cards .card .down{
+    @apply text-red-500
+}
+/* Mobile */
+.stat-cards{
+    @apply max-md:grid max-md:grid-cols-2 max-md:gap-5 max-md:justify-center
+}

@@ -1,0 +1,224 @@
+{
+    "home": "الرئيسية",
+    "dashboard": "لوحة التحكم",
+    "universities": "الجامعات",
+    "colleges": "الكليات",
+    "departments": "الأقسام",
+    "programs": "البرامج",
+    "languages": "اللغات",
+    "articles": "المقالات",
+    "students": "الطلاب",
+    "staff": "الكادر",
+    "branches": "الفروع",
+    "events": "الفعاليات",
+    "careers": "الوظائف",
+    "applications": "طلبات التقديم",
+    "admission": "القبول",
+    "services": "الخدمات",
+    "libraries": "المكتبات",
+    "social_media": "وسائل التواصل",
+    "pages": "الصفحات",
+    "contact_message": "رسائل التواصل",
+    "job_postings": "إعلانات وظيفة",
+    "core": "الأساسيات",
+    "messages":"رسائل",
+    "Quick actions":"الإجراءات السريعة",
+    "Advertisements":"إعلانات",
+    "Bachelor":"بكالوريوس",
+    "Master":"ماجستير",
+    "select":"اختيار",
+    "arabic": "العربي",
+      "english":"إنكليزي",
+        "subject_en":"الموضوع (إنكليزي)",
+         "subject_ar":"الموضوع (عربي)",
+          "message_ar":"رسالة(عربي)",
+        "message_en":"رسالة(إنكليزي)",
+        "images":"صور",
+        
+         "Description":"وصف",
+             "description_ar":"وصف(عربي)",
+         "description_en":"وصف(إنكليزي)",
+         "collage":"كلية",
+          "program_en":"برنامج(إنكليزي)",
+         "program_ar":"برنامج(عربي)",
+         "bio_ar": "السيرة الذاتية (عربي)",
+"bio_en": "السيرة الذاتية (إنجليزي)",
+"published_date":"التاريخ المنشور",
+"abstract":"ملخص",
+"abstract_ar": "الملخص (عربي)",
+"abstract_en": "الملخص (إنجليزي)",
+"content_en": "المحتوى (إنجليزي)",
+"content_ar": "المحتوى (عربي)",
+"requirements_ar": "المتطلبات (عربي)",
+"requirements_en": "المتطلبات (إنجليزي)",
+"procedure_ar": "الآلية (عربي)",
+"procedure_en": "الآلية (إنجليزي)",
+"body_ar": "النص (عربي)",
+"body_en": "النص (إنجليزي)",
+"service_type":"نوع خدمة",
+ "file":"ملف",
+ "body":"النص",
+ "Username":"اسم مستخدم",
+ "Password":"كلمة المرور",
+    "PhD":"دكتوراه",
+    "Diploma":"دِبْلُوم",
+    "saving...":"حفظ...",
+    "deleting...":"حذف...",
+     "editing...":"تعديل...",
+      "Are You Sure?":"هل أنت متأكد؟",
+      "platForm":"منصة",
+      "url":"رابط",
+    "Research":"بحث",
+    "value":"قيمة",
+    "academics": "الأكاديميات",
+    "news": "الأخبار",
+    "upcoming_events":"الأحداث القادمة",
+    "Recent_applications":"التطبيقات الحديثة",
+"Welcome back, admin":"مرحباً بك مرة أخرى، أيها المسؤول",
+    "Are You Sure? ": "هل أنت متأكد؟",
+    "department": "القسم",
+    "bio":  "نبذة",
+    "type_staff": "نوع الموظف",
+    "job_title":  "المسمى الوظيفي",
+    "type_services": "أنواع الخدمات",
+
+    "university": "الجامعة",
+    "platform": "المنصة",
+    "slug": "الرابط المختصر",
+    "page_type": "نوع الصفحة",
+    "branch_name": "اسم الفرع",
+
+    "language": "اللغة",
+    "college":"الكلية",
+     "department_ar": "القسم بالعربي",
+     "department_en":"القسم بالانجليزي",
+
+    "add": "إضافة",
+    "search": "بحث",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    
+
+    "name": "الاسم",
+    "name_ar": "الاسم بالعربي",
+    "name_en": "الاسم بالانجليزي",
+
+    "title": "العنوان",
+    "title_ar": "العنوان بالعربي",
+    "title_en": "العنوان بالانجليزي",
+
+    "content": "المحتوى",
+    "description": "الوصف",
+
+    "email": "البريد الالكتروني",
+    "phone": "رقم الهاتف",
+    "address": "العنوان",
+    "location": "الموقع",
+
+    "code": "الرمز",
+    "status": "الحالة",
+
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "pending": "قيد الانتظار",
+    "approved": "مقبول",
+    "rejected": "مرفوض",
+
+    "image": "الصورة",
+    "upload_image": "رفع الصورة",
+
+    "cv": "السيرة الذاتية",
+    "upload_cv": "رفع السيرة الذاتية",
+
+    "deadline": "آخر موعد",
+    "requirements": "المتطلبات",
+    "procedure": "الاجراءات",
+    "tuition_fee": "الرسوم الدراسية",
+
+    "acadimec_calender": "التقويم الأكاديمي",
+    "event_date": "تاريخ الفعالية",
+
+    "library_name": "اسم المكتبة",
+    "access_url": "رابط الوصول",
+    "level": "المستوى",
+
+    "type_job": "نوع الوظبفة",
+    "job": "العمل",
+    "applicant_name": "اسم المتقدم",
+    "applicant_email": "البريد الالكتروني للمتقدم",
+     "program": "البرنامج",
+
+    "admission_info": "معلومات القبول",
+
+    "full_name": "الاسم الكامل",
+    "national_id": "الرقم الوطني",
+
+    "subject": "الموضوع",
+    "message": "الرسالة",
+    "sender_name": "اسم المرسل",
+    "sender_email": "البريد الالكتروني  للمرسل",
+
+    "view_all": "عرض الكل",
+
+    "open": "مفتوح",
+    "closed": "مغلق",
+    "Yes": "نعم",
+    "No": "لا",
+
+    "add_university": "إضافة جامعة",
+    "edit_university": "تعديل جامعة",
+
+    "edit_student": "تعديل الطلاب",
+    "add_student": "إضافة الطلاب",
+
+    "edit_staff": "تعديل موظف",
+    "add_staff": "إضافة موظف",
+
+     "edit_services": "تعديل الخدمات",
+    "add_services": "إضافة الخدمات",
+
+    "edit_socialMedia": "تعديل وسائل التواصل",
+    "add_socialMedia": "إضافة وسائل التواصل",
+
+      "edit_program": "تعديل البرنامج",
+    "add_program": "إضافة البرنامج",
+
+    "edit_pages": "تعديل الصفحات",
+    "add_pages": "إضافة الصفحات",
+
+    "edit_library": "تعديل المكتبات",
+    "add_library": "إضافة المكتبات",
+
+    "edit_language": "تعديل اللغة",
+    "add_language": "إضافة اللغة",
+
+    "edit_jobPosting": "تعديل إعلان وظيفة",
+    "add_jobPosting": "إضافة إعلان وظيفة",
+
+        "edit_branches": "تعديل الفروع",
+    "add_branches": "إضافة الفروع",
+
+    "edit_colleges": "تعديل الكليات",
+    "add_colleges": "إضافة الكليات",
+
+    "edit_contactMessage": "تعديل رسائل التواصل",
+    "add_contactMessage": "إضافة رسائل التواصل",
+
+    "edit_Department": "تعديل الأقسام",
+    "add_Department": "إضافة الأقسام", 
+
+     "edit_events": "تعديل الفعاليات",
+     "add_events": "إضافة الفعاليات",
+
+      "edit_articles": "تعديل المقالات",
+      "add_articles": "إضافة المقالات",
+
+    "edit_applications": "تعديل طلبات التقديم",
+    "add_applications": "إضافة طلبات التقديم",
+
+        "edit_admissionInfo": "تعديل معلومات القبول",
+        "add_admissionInfo": "إضافة معلومات القبول"
+
+}

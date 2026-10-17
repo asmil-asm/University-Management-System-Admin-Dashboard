@@ -1,0 +1,35 @@
+@import "tailwindcss";
+.events{
+    @apply  p-5 pb-10 rounded-2xl shadow-xl   h-[700px] max-2xl:w-full
+     overflow-y-auto 
+}
+.events .text{
+    @apply flex items-center gap-x-2  justify-between
+    pb-3
+}
+.events .text button{
+        @apply text-[15px] hover:text-[#999]
+duration-300
+}
+.events  .icon{
+    @apply text-2xl 
+}
+.events .text  h4{
+    @apply text-xl font-bold 
+}
+.events .info{
+    @apply flex flex-col gap-y-5 mt-[30px]
+}
+.events .info .event{
+    
+    @apply  rounded-xl px-8 py-1 w-full hover:-translate-y-1
+    duration-300
+  
+}
+
+.events .info .event p{
+    @apply text-[15px] p-2 text-white font-bold
+}
+.events .info .event span{
+    @apply text-[15px] text-[var(--color-light-main)]
+}

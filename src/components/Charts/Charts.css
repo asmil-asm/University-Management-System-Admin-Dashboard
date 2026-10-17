@@ -1,0 +1,12 @@
+@import "tailwindcss";
+.charts{
+    
+    @apply  p-5 pb-10 rounded-2xl shadow-xl  h-[600px]
+    flex items-center justify-center max-2xl:w-full 
+    
+}
+.bar{
+    @apply h-[700px]
+}
+
+

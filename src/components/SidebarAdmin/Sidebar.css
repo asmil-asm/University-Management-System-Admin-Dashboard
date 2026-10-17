@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+.sidebar {
+  @apply w-72 text-white p-5 shadow-md z-40 h-screen 
+  sticky top-0 duration-300 overflow-y-auto
+  max-md:fixed max-md:top-0 max-md:transition-transform
+}
+
+/* قم بحذف هذا السطر لأنه تم معالجته في الـ JSX */
+/* .sidebar.open { @apply max-md:translate-x-0 } */
+
+.sidebar .home {
+  @apply flex items-center text-xl gap-x-2 mb-10 cursor-pointer
+  hover:bg-white/20 hover:p-2 duration-500
+}
+.sidebar .text {
+  @apply flex items-center justify-between gap-x-4 mb-9 border-b border-[var(--color-light)] pb-3
+}
+.sidebar .text h3 { @apply text-xl font-bold  }
+.sidebar .nav .info {
+  @apply flex items-center gap-x-2 text-white text-[18px] mb-6 cursor-pointer
+  hover:bg-white/20 hover:p-2 duration-500
+}
+.nav .info .caret-right { @apply text-[18px] cursor-pointer transition-transform duration-500 ml-auto }
+.nav .info .caret-left{
+  @apply text-[18px] cursor-pointer transition-transform duration-500 mr-auto
+}
+.data ul { @apply flex flex-col gap-3 list-none mb-5 text-white }
+
+.data ul li {
+  @apply flex items-center gap-2 cursor-pointer text-[16px] pl-6 py-1
+  hover:bg-white/10 duration-300
+}
+.data .icons { @apply text-[18px] }
+.data ul .active { @apply bg-white/10 }

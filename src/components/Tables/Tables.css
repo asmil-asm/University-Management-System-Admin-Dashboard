@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+.table-wapper{
+    @apply   rounded shadow mt-6  overflow-auto h-auto
+}
+.table{
+    @apply w-full border-collapse   ;
+}
+
+.table thead tr th{
+    @apply text-left border-b text-[var(--color-light-text)]
+     text-center
+}
+.table tbody tr{
+    @apply border-b transition
+}
+
+.table thead tr th,
+.table tbody tr td {
+  @apply p-4 text-center align-middle;
+}

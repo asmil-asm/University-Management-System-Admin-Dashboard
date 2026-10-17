@@ -1,0 +1,27 @@
+@import "tailwindcss";
+.quick{
+    @apply my-[100px] 
+}
+.quick h2{
+    @apply text-xl  font-bold text-center mb-5
+}
+.quick .actions{
+     grid-template-columns: repeat(auto-fill, minmax(170px,1fr));
+    @apply grid items-center justify-center mt-5 gap-5 mx-auto 
+}
+.quick .actions .cart{
+  
+    @apply shadow-xl   py-8  px-5 w-[170px] h-[250px] 
+    rounded-xl max-md:w-full
+}
+.quick .actions .cart .text{
+    @apply flex items-center gap-x-1
+    text-xl font-bold 
+}
+.quick .actions .cart ul{
+    @apply flex flex-col gap-y-1 list-disc mt-[10px] px-2
+}
+
+.quick .actions .cart ul li{
+    @apply text-[14px]  hover:text-[var(--color-dark-shadow)] cursor-pointer
+}

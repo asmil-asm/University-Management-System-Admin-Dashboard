@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+.header {
+  @apply flex justify-between items-center shadow-md px-4 py-3 md:p-4
+   sticky top-0 z-20 h-16 relative
+}
+.header .iconSide {
+  @apply text-2xl text-[var(--color-main)] md:hidden block cursor-pointer rtl:ml-3 ltr:mr-3
+}
+.header .title {
+   @apply flex items-center gap-x-3
+}
+
+.header .logo{
+  @apply  h-[60px] w-[60px] cursor-pointer
+}
+.header .title h2 { @apply text-base md:text-xl font-bold cursor-pointer 
+max-sm:hidden}
+.header .title .icon { @apply text-3xl md:text-5xl cursor-pointer }
+
+.header .info { @apply flex items-center justify-center gap-x-2 md:gap-x-5  }
+.header .info .language {
+  @apply  cursor-pointer 
+  hover:text-[var(--color-dark-shadow)] rounded-xl p-1
+}
+.header .info .mood {
+  @apply  p-1 rounded-xl  hover:text-[var(--color-dark-shadow)]
+  text-2xl cursor-pointer
+}
+.header .info .language .lan { @apply flex gap-x-2 items-center }
+.header .info .user {
+  @apply flex items-center gap-x-3 md:gap-x-4  px-3 md:pl-5 border-[var(--color-light)]
+}
+.header .info .user .icon { @apply text-xl cursor-pointer    hover:text-[var(--color-dark-shadow)]
+  }

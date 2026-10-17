@@ -1,0 +1,25 @@
+   @import "tailwindcss";
+.dashboard .title{
+    @apply flex justify-between py-3 px-5 rounded-2xl  items-center
+    max-lg:flex-col text-center gap-4
+}
+.dashboard .text h3{
+    @apply text-white text-2xl font-bold max-md:text-xl
+}
+.dashboard .text p{
+    @apply mt-2 text-[var(--color-light-text)] text-[18px] max-md:text-[15px]
+}
+.dashboard .info{
+    @apply flex items-center gap-x-4 text-center 
+     
+}
+.dashboard .info span{
+    @apply text-xl font-bold text-white max-md:text-[15px]
+}
+.dashboard .info  p{
+    @apply text-[var(--color-light-text)]
+}
+.dashboard .stats{
+    @apply flex items-center gap-10 mt-[100px] justify-around 
+    max-2xl:flex-col max-lg:w-full  
+}

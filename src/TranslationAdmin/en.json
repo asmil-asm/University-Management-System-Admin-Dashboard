@@ -1,0 +1,226 @@
+{
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "universities": "Universities",
+    "colleges": "Colleges",
+    "departments": "Departments",
+    "programs": "Programs",
+    "languages": "Languages",
+    "articles": "Articles",
+    "students": "Students",
+    "staff": "Staff",
+    "branches": "Branches",
+    "events": "Events",
+    "careers": "Careers",
+    "applications": "Applicaions",
+    "admission": "Admission",
+    "services": "Services",
+    "libraries": "Libraries",
+    "social_media": "Social Media",
+    "pages": "Pages",
+    "contact_message": "Contact Message",
+    "core": "Core",
+    "academics": "Academics",
+    "Recent_applications":"Recent Applications",
+    "news": "News",
+    "messages":"messages",
+    "Quick actions":"Quick actions",
+    "Advertisements":"Advertisements",
+      "select":  "select",
+      "arabic": "arabic",
+      "english":"english",
+     
+            "subject_en":"subject(english)",
+         "subject_ar":"subject(arabic)",
+        "message_ar":"message(arabic)",
+        "message_en":"message(english)",
+         "images": "images",
+           "Description":"Description",
+            "description_ar":"description(arabic)",
+         "description_en":"description(english)",
+         "collage":"collage",
+         "program_en":"Program(english)",
+         "program_ar":"Program(arabic)",
+         "published_date":"published_date",
+         "abstract":"Abstract",
+         "abstract_ar":"abstract_ar",
+         "abstract_en":"abstract_en",
+         "content_ar":"content_ar",
+         "content_en":"content_en",
+         "body_en":"body(ebglish)",
+            "body_arabic":"body(arabic)",
+            "Username":"Username",
+            "Password":"Password",
+    "Bachelor":"Bachelor",
+    "requirements_ar":"requirements_ar",
+ "requirements_en":"requirements_en",
+ "procedure_ar":"procedure_ar",
+  "procedure_en":"procedure_en",
+  "service_type":"service_type",
+  "file":"file",
+   "body": "body",
+
+    "saving...":"saving...",
+     "deleting...":"deleting...",
+     "editing...":"eidting...",
+     "Are You Sure?":"Are You Sure?",
+     "platForm":"platForm",
+     "url":"url",
+    "Master":"Master",
+    "PhD":"PhD",
+    "Diploma":"Diploma",
+    "Research":"Research",
+        "value":"value",
+      "job_postings": "Job Postings",
+      "Welcome back, admin":"Welcome back, admin",
+      "upcoming_events":"Upcoming Events",
+    "department": "Department",
+    "bio": "Bio", 
+    "type_staff": "Staff Type",
+    "job_title": "Title",
+    "type_services": "Type Services",
+
+    "admission_info": "Admission Info",
+
+    "college": "college",
+    "department_ar": "Department_AR",
+    "department_en": "Department_EN",
+    "program": "Program",
+
+    "university": "University",
+    "platform": "Platform",
+    "slug": "Slug",
+    "page_type": "Page Type",
+    "language": "Language",
+    "branch_name": "Branch Name",
+
+    "job": "Job",
+    "applicant_name": "Applicant Name",
+    "applicant_email": "Applicant Email",
+
+    "add": "Add",
+    "search": "Search",
+    "save": "Save",
+    "cancel": "Cancel",
+    "actions": "Actions",
+    "edit": "Edit",
+
+    "name": "Name",
+    "name_ar": "Name AR",
+    "name_en": "Name EN",
+
+    "title": "Title",
+    "title_ar": "Title AR",
+    "title_en": "Title EN",
+
+    "content": "Content",
+    "description": "Description",
+
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "location": "Location",
+
+    "code": "Code",
+    "status": "Status",
+    "event_date": "Event Date",
+
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+
+    "image": "Image",
+    "upload_image": "Upload Image",
+
+    "cv": "CV",
+    "upload_cv": "Upload CV",
+
+    "deadline": "Deadline",
+    "requirements": "Requirements",
+    "procedure": "Procedure",
+    "tuition_fee": "Tuition Fee",
+
+    "acadimec_calender": "Acadimec Calender",
+
+    "library_name": "Library Name",
+    "access_url": "Access URL",
+    "level": "Level",
+    "Are You Sure? ": "Are You Sure? ",
+    "Yes": "Yes",
+    "No": "No",
+
+    "type_job": "Type Job",
+
+    "full_name": "Full Name",
+    "national_id": "National ID",
+
+    "subject": "Subject",
+    "message": "Message",
+    "sender_name": "Sender Name",
+    "sender_email": "Sender Email",
+
+    "view_all": "View all",
+
+    "open": "Open",
+    "closed": "Closed",
+
+    "add_university": "Add University",
+    "edit_university": "Edit University",
+
+    "edit_student": "Edit Student",
+    "add_student": "Add Student",
+
+    "edit_staff": "Edit Staff",
+    "add_staff": "Add Staff",
+
+    "edit_services": "Edit Services",
+    "add_services": "Add Services",
+
+    "edit_socialMedia": "Edit Social Media",
+    "add_socialMedia": "Add Social Media",
+
+    "edit_program": "Edit Program",
+    "add_program": "Add Program",
+
+    "edit_pages": "Edit Pages",
+    "add_pages": "Add Pages",
+
+    "edit_library": "Edit Library",
+    "add_library": "Add Library",
+    
+    "edit_language": "Edit Languages",
+    "add_language": "Add Languages",
+
+    "edit_jobPosting": "Edit Job Posting",
+    "add_jobPosting": "Add Job Posting",
+
+    "edit_branches": "Edit Branches",
+    "add_branches": "Add Branches",
+
+    "edit_colleges": "Edit Collages",
+    "add_colleges": "Add Collages",
+
+    "edit_contactMessage": "Edit Contact Message",
+    "add_contactMessage": "Add Contact Message", 
+
+    "edit_Department": "Edit Departments",
+    "add_Department": "Add Department",
+
+    "edit_events": "Edit Events",
+    "add_events": "Add Events",
+
+    "edit_articles": "Edit Articles",
+    "add_articles": "Add Articles",
+
+    "edit_applications": "Edit Applicaions",
+    "add_applications": "Add Applicaions",
+
+    "edit_admissionInfo": "Edit admissionInfo",
+    "add_admissionInfo": "Add admissionInfo"
+    
+    
+
+
+}

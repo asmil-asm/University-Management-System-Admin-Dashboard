@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+.header-searchAdd{
+    @apply flex items-center justify-center mb-5 gap-3;
+    
+}
+.header-searchAdd input{
+    @apply border border-gray-300 rounded-xl p-4 outline-none
+    max-md:p-2 flex-1
+}
+.header-searchAdd input::placeholder{
+    @apply text-gray-500
+}
+.header-searchAdd input:focus{
+    @apply border border-[var(--color-light-main)];
+}
+.header-searchAdd .add-btn{
+        @apply flex items-center justify-center gap-1 bg-[var(--color-light-main)] text-white p-3 rounded-xl text-[18px] cursor-pointer  max-md:p-2
+}
