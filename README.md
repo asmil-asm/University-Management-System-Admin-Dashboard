@@ -1,16 +1,193 @@
-# React + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🎓 نظام إدارة الجامعة – لوحة التحكم
 
-Currently, two official plugins are available:
+### University Management System – Admin Dashboard
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+لوحة تحكم إدارية متكاملة وعصرية لنظام إدارة جامعي، مبنية بأحدث تقنيات **React 19** و**Vite**، وتتواصل مع واجهة API خلفية مبنية بـ **Django REST Framework**.
 
-## React Compiler
+[![React](https://img.shields.io/badge/React-19.2.5-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-8.0.10-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.2.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](./LICENSE)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+[![GitHub stars](https://img.shields.io/github/stars/asmil-asm/Dashboard-University_system?style=social)](https://github.com/asmil-asm/Dashboard-University_system/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/asmil-asm/Dashboard-University_system?style=social)](https://github.com/asmil-asm/Dashboard-University_system/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/asmil-asm/Dashboard-University_system)](https://github.com/asmil-asm/Dashboard-University_system/issues)
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📋 جدول المحتويات
+
+- [نظرة عامة](#-نظرة-عامة)
+- [الميزات الرئيسية](#-الميزات-الرئيسية)
+- [التقنيات المستخدمة](#-التقنيات-المستخدمة)
+- [المتطلبات المسبقة](#-المتطلبات-المسبقة)
+- [التثبيت](#-التثبيت)
+- [الإعداد](#-الإعداد)
+- [التشغيل](#-التشغيل)
+- [البناء والنشر](#-البناء-والنشر)
+- [هيكل المشروع](#-هيكل-المشروع)
+- [التكامل مع الواجهة الخلفية](#-التكامل-مع-الواجهة-الخلفية)
+- [المصادقة والأمان](#-المصادقة-والأمان)
+- [التوطين (i18n)](#-التوطين-i18n)
+- [إدارة الحالة](#-إدارة-الحالة)
+- [استكشاف الأخطاء](#-استكشاف-الأخطاء)
+- [خارطة الطريق](#-خارطة-الطريق)
+- [المساهمة](#-المساهمة)
+- [الترخيص](#-الترخيص)
+- [التواصل](#-التواصل)
+
+---
+
+## 🎯 نظرة عامة
+
+**لوحة التحكم** هي الواجهة الإدارية لنظام إدارة الجامعة، تتيح للمسؤولين إدارة جميع جوانب النظام من مكان واحد. تعتمد اللوحة على واجهة API خلفية مبنية بـ Django وتُدار عملياتها عبر RESTful endpoints مع مصادقة JWT.
+
+### الأهداف الرئيسية
+
+- ✅ **واجهة عصرية وسريعة** مبنية على React 19 + Vite.
+- ✅ **دعم كامل للغة العربية** مع إمكانية التبديل بين `ar` و `en`.
+- ✅ **تصميم متجاوب** يعمل على الحواسيب والأجهزة اللوحية والهواتف.
+- ✅ **تجربة مستخدم سلسة** مع رسوم متحركة وإشعارات فورية.
+- ✅ **قابلية التوسّع** عبر بنية معيارية قابلة للصيانة.
+
+---
+
+## ✨ الميزات الرئيسية
+
+### 🔐 المصادقة والصلاحيات
+- تسجيل دخول آمن عبر JWT.
+- تجديد تلقائي للتوكن (Auto Refresh Token).
+- حماية المسارات عبر `ProtectedRoute` و`RoleGuard`.
+- تسجيل خروج آمن مع تنظيف الجلسة.
+
+### 📊 لوحة النظرة العامة
+- إحصائيات فورية عن المحتوى (عدد الأخبار، الرسائل، المستخدمين...).
+- رسوم بيانية تفاعلية عبر **Recharts**.
+- بطاقات موجزة قابلة للتخصيص.
+
+### 🏛️ إدارة الجامعة
+- تعديل معلومات الجامعة (الاسم، الشعار، الموقع، الفروع).
+- إدارة روابط التواصل الاجتماعي.
+- إدارة اللغات المدعومة.
+
+### 📄 إدارة الصفحات
+- إنشاء وتعديل الصفحات ثنائية اللغة (عربي/إنجليزي).
+- محرر نصوص غني (Rich Text Editor).
+- رفع الصور وإدارتها.
+
+### 📚 الشؤون الأكاديمية
+- إدارة الكليات والأقسام.
+- إدارة البرامج الأكاديمية والمقررات.
+
+### 🎓 القبول والتسجيل
+- إدارة متطلبات القبول.
+- مراجعة طلبات التقديم وتحديث حالتها.
+- إدارة مستندات المتقدمين.
+
+### 💼 الوظائف
+- نشر الوظائف الشاغرة.
+- مراجعة طلبات التوظيف.
+
+### 📰 الأخبار
+- إنشاء وتحرير الأخبار ثنائية اللغة.
+- تصنيف الأخبار.
+- جدولة النشر.
+
+### 🛠️ الخدمات
+- إدارة الخدمات التي تقدمها الجامعة.
+- تصنيف الخدمات.
+
+### ✉️ رسائل التواصل
+- عرض الرسائل الواردة من الزوار.
+- الرد على الرسائل.
+- تصنيف الرسائل (مقروءة/غير مقروءة).
+
+### 👥 إدارة المستخدمين
+- إضافة وتعديل المستخدمين.
+- تعيين الأدوار والصلاحيات.
+- تعطيل/تفعيل الحسابات.
+
+### 🌐 الترجمة
+- دعم كامل للعربية والإنجليزية.
+- تبديل اللغة فوري دون إعادة تحميل.
+- إدارة ملفات الترجمة عبر `i18next`.
+
+### 🔔 الإشعارات
+- إشعارات فورية عبر **react-hot-toast**.
+- تنبيهات النجاح والخطأ والتحذير.
+
+### 🎨 التصميم والرسوم المتحركة
+- تصميم حديث عبر **Tailwind CSS 4**.
+- رسوم متحركة سلسة عبر **Framer Motion**.
+- أيقونات متجهية عبر **React Icons**.
+- دعم الوضع الفاتح (Light Mode) (والداكن قيد التطوير).
+
+---
+
+## 🛠️ التقنيات المستخدمة
+
+### Core
+
+| التقنية | الإصدار | الدور |
+|---------|---------|-------|
+| [React](https://react.dev/) | 19.2.5 | مكتبة بناء الواجهة |
+| [Vite](https://vitejs.dev/) | 8.0.10 | أداة البناء وخادم التطوير |
+| [React DOM](https://react.dev/) | 19.2.5 | ربط React بـ DOM |
+| [React Router DOM](https://reactrouter.com/) | 7.15.0 | التوجيه |
+
+### Styling & UI
+
+| التقنية | الإصدار | الدور |
+|---------|---------|-------|
+| [Tailwind CSS](https://tailwindcss.com/) | 4.2.4 | إطار التنسيق |
+| [React Icons](https://react-icons.github.io/react-icons/) | 5.6.0 | مكتبة الأيقونات |
+| [Framer Motion](https://www.framer.com/motion/) | 12.38.0 | الرسوم المتحركة |
+| [React Hot Toast](https://react-hot-toast.com/) | 2.6.0 | الإشعارات |
+
+### State & Data
+
+| التقنية | الإصدار | الدور |
+|---------|---------|-------|
+| [Zustand](https://zustand-demo.pmnd.rs/) | 5.0.15 | إدارة الحالة العامة |
+| [TanStack Query](https://tanstack.com/query) | 5.104.1 | جلب البيانات والتخزين المؤقت |
+| [Axios](https://axios-http.com/) | 1.16.0 | عميل HTTP |
+
+### i18n & Charts
+
+| التقنية | الإصدار | الدور |
+|---------|---------|-------|
+| [i18next](https://www.i18next.com/) | 26.2.0 | الترجمة |
+| [react-i18next](https://react.i18next.com/) | 17.0.8 | ربط i18next مع React |
+| [Recharts](https://recharts.org/) | 3.8.1 | الرسوم البيانية |
+
+### Dev Tools
+
+| الأداة | الدور |
+|--------|-------|
+| [ESLint](https://eslint.org/) | فحص جودة الكود |
+| [Prettier](https://prettier.io/) | تنسيق الكود |
+
+---
+
+## 📦 المتطلبات المسبقة
+
+قبل البدء، تأكد من توفر ما يلي:
+
+| المتطلب | الإصدار الموصى به | التحقق |
+|---------|-------------------|--------|
+| **Node.js** | 18.x أو أحدث | `node --version` |
+| **npm** | 9.x أو أحدث | `npm --version` |
+| **yarn** (اختياري) | 1.22.x أو أحدث | `yarn --version` |
+| **Git** | أي إصدار حديث | `git --version` |
+
+### تشغيل الواجهة الخلفية
+
+يجب أن تكون واجهة API الخلفية (Django) مشغّلة على المنفذ `8000` (أو أي منفذ آخر تحدده).
+
+```bash
+# في مجلد مستودع الواجهة الخلفية
+python manage.py runserver
