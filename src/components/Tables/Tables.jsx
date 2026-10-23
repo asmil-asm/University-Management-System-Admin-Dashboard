@@ -10,12 +10,12 @@ import './Tables.css';
 function Tables({ data, columns }) {
   const { mood } = useChange();
 
-const table = useReactTable({
-  data,
-  columns,
-  getCoreRowModel: getCoreRowModel(),
-  getRowId: (row) => String(row.id), 
-});
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => String(row.id), 
+  });
 
   return (
     <div
@@ -24,7 +24,6 @@ const table = useReactTable({
       }`}
     >
       <table className="table">
-
         <thead className={mood ? 'bg-gray-800' : 'bg-[var(--color-light-main)]'}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -42,7 +41,7 @@ const table = useReactTable({
 
         <tbody>
           {table.getRowModel().rows.map((row) => (
-            <tr key={row.original.id}>
+            <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
@@ -61,7 +60,6 @@ const table = useReactTable({
             </tr>
           ))}
         </tbody>
-
       </table>
     </div>
   );

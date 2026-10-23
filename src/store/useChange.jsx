@@ -46,7 +46,9 @@ export const useChange = create(
         }));
       },
       setFormDataDirect: (data) => set(() => ({ formData: { ...data } })),
-      setSelectedIdToDelete: (id) => set(() => ({ selectedIdToDelete: id })),
+resetForm: () => set({ formData: {}}),
+
+setSelectedIdToDelete: (id) => set(() => ({ selectedIdToDelete: id })),
     }),
     {
       name: 'change-store',

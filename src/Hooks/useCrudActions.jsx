@@ -14,6 +14,13 @@ const prepareApiData = (data) => {
     for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             const value = data[key];
+            
+            if (key === 'existing_file') continue;
+
+            if (key === 'form_file' && !(value instanceof File || value instanceof Blob)) {
+                continue; 
+            }
+
             if (value instanceof File || value instanceof Blob) {
                 hasFile = true;
                 formData.append(key, value);
@@ -30,7 +37,7 @@ const prepareApiData = (data) => {
 
 export const useCrudActions = () => {
     const { t } = useTranslation();
-    const { setShowAdd, setShowEidte, setShowDelete, setFormDataDirect } = useChange();
+    const { setShowAdd, setShowEidte, setShowDelete, setFormDataDirect,resetForm} = useChange();
 
     const handleError = (error) => {
         console.error(error);
@@ -81,8 +88,11 @@ export const useCrudActions = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries( [queryKey] );
                 toast.success(t('Added'));
-                if (initialFormValues) setFormDataDirect(initialFormValues);
-                setShowAdd(false);
+if (initialFormValues) {
+                setFormDataDirect(initialFormValues);
+            } else {
+                resetForm();   
+            }                setShowAdd(false);
             },
             onError: handleError
         });
@@ -101,8 +111,13 @@ export const useCrudActions = () => {
             onSuccess: () => {
                 queryClient.invalidateQueries( [queryKey] );
                 toast.success(t(successMessage || 'Updated'));
-                if (initialFormValues) setFormDataDirect(initialFormValues);
-                setShowEidte(false);
+if (initialFormValues) {
+        setFormDataDirect(initialFormValues);
+    } else {
+        resetForm();
+    }                setShowEidte(false);
+
+                
             },
             onError: handleError,
         });

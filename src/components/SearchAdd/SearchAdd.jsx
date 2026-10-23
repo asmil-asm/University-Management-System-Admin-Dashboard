@@ -5,7 +5,7 @@ import './SearchAdd.css';
 
 function SearchAdd(){
     const {t} = useTranslation();
-    const {search,setSearch,setShowAdd}=useChange()
+    const {search,setSearch,setShowAdd,resetForm}=useChange()
 
     return(
         <>
@@ -15,7 +15,12 @@ function SearchAdd(){
             value={search}
             onChange={(e)=> setSearch(e.target.value)}/>
 
-            <button className="add-btn" onClick={()=>setShowAdd(true)} >
+            <button className="add-btn" onClick={()=>{
+                setShowAdd(true)
+                resetForm()
+            }
+                
+            } >
                 {t("add")}
                 <IoIosAdd/>
                 

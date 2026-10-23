@@ -4,6 +4,7 @@ import AdminLayout from '../layout/AdminLayout/AdminLayout'
 import ProtectedRoutes from './ProtectedRoutes'
 import ResourcePage from '../pages/ResourcePage/ResourcePage'
 import Dashboard from '../pages/Dashboard/Dashboard'
+import Error from '../pages/Error/Error'
 const router = createBrowserRouter([
     {
         path: '/',
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
                         <AdminLayout />
             </ProtectedRoutes>
         ),
+        errorElement:<Error/>,
         children: [
             { index: true, element: <Dashboard /> },
             { path: 'languages', element: <ResourcePage/>},
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
             { path: 'research', element:<ResourcePage/> },
         ],
     },
+      {
+        path: '*',
+        element: <Error />,
+    }
 ])
 
 const AppRouter=()=>{

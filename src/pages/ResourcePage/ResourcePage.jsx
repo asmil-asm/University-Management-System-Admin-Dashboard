@@ -127,7 +127,7 @@ const filterData = useMemo(() => {
                         isPending={isAdding}
                         title={config.titleAdd}
                         fields={config.fields}
-                        onSave={() => handelAdd(config.addUrl || config.baseUrl, formData)}
+                        onSave={() => handelAdd(config.baseUrl, formData)}
                     />
                 )}
 

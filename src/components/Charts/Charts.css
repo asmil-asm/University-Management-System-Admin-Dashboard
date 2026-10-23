@@ -6,7 +6,6 @@
     
 }
 .bar{
-    @apply h-[700px]
+    @apply h-[700px] w-full
 }
-
 
