@@ -3,7 +3,6 @@ import DeleteEditAction from "../components/DeleteEditAction/DeleteEditAction";
 
 export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers = {}, i18n = {}) => {
     const { 
-
         university = [], 
         colleges = [], 
         departments = [], 
@@ -11,12 +10,13 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         staff = [], 
         jopPosting = []
     } = optionsData || {};
-   const optionsProgram = [
-    { name_en: 'bachelor', name_ar: 'بكالوريوس' },
-    { name_en: 'master',   name_ar: 'ماجستير'   },
-    { name_en: 'phd',      name_ar: 'دكتوراه'   },
-    { name_en: 'diploma',  name_ar: 'دبلوم'     },
-];
+    
+    const optionsProgram = [
+        { name_en: 'bachelor', name_ar: 'بكالوريوس' },
+        { name_en: 'master',   name_ar: 'ماجستير'   },
+        { name_en: 'phd',      name_ar: 'دكتوراه'   },
+        { name_en: 'diploma',  name_ar: 'دبلوم'     },
+    ];
 
     const { openDeleteModal, setContent } = handlers;
 
@@ -53,7 +53,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 1. الجامعات (Universities) ====================
         case 'universities':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/core/universities/",
+                baseUrl: "/api/v1/dashboard/core/universities/",
                 titleAdd: t("add_university"),
                 titleEdit: t("edit_university"),
                 searchKeys: ['name_ar', 'name_en'],
@@ -78,7 +78,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 2. الكليات (Colleges) ====================
         case 'colleges':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/academics/colleges/",
+                baseUrl: "/api/v1/dashboard/academics/colleges/",
                 titleAdd: t("add_colleges"),
                 titleEdit: t("edit_college"),
                 searchKeys: ['name_en', 'name_ar'],
@@ -121,7 +121,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 3. الأقسام (Departments) ====================
         case 'departments':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/academics/departments/",
+                baseUrl: "/api/v1/dashboard/academics/departments/",
                 titleAdd: t("add_Department"),
                 titleEdit: t("edit_department"),
                 searchKeys: ['name_en', 'name_ar'],
@@ -145,7 +145,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 4. البرامج الأكاديمية (Programs) ====================
         case 'programs':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/academics/programs/",
+                baseUrl: "/api/v1/dashboard/academics/programs/",
                 titleAdd: t("add_programs"),
                 titleEdit: t("edit_programe"),
                 searchKeys: ['name_ar', 'name_en'],
@@ -161,9 +161,9 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "name_ar", label: t("program_ar"), placeholder: t("program_ar"), type: "text", required: true },
                     { name: "name_en", label: t("program_en"), placeholder: t("program_en"), type: "text", required: true },
                     { name: "level", label: t("level"), placeholder: t("level"), type: "select", required: true, options: optionsProgram.map((p) => ({
-    value: p.name_en,             
-    name: p.name_ar || p.name_en, 
-  })),  },
+                        value: p.name_en,             
+                        name: p.name_ar || p.name_en, 
+                    })) },
                 ],
                 mapItem: (item) => {
                     const targetDep = departments.find(d => Number(d.id) === Number(item.department));
@@ -174,7 +174,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 5. الكادر التدريسي (Staff) ====================
         case 'staff':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/academics/staff/",
+                baseUrl: "/api/v1/dashboard/academics/staff/",
                 titleAdd: t("add_staff"),
                 titleEdit: t("edit_staff"),
                 searchKeys: ['full_name', 'email'],
@@ -217,7 +217,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 6. الأبحاث العلمية (Research) ====================
         case 'research':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/academics/research/",
+                baseUrl: "/api/v1/dashboard/academics/research/",
                 titleAdd: t("add_research"),
                 titleEdit: t("edit_research"),
                 searchKeys: ['title_ar', 'title_en'],
@@ -253,7 +253,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 7. الفعاليات (Events) ====================
         case 'events':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/news/events/",
+                baseUrl: "/api/v1/dashboard/news/events/",
                 titleAdd: t("add_events"),
                 titleEdit: t("edit_event"),
                 searchKeys: ['title_ar', 'title_en'],
@@ -287,7 +287,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 8. المقالات (Articles) ====================
         case 'articles':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/news/articles/",
+                baseUrl: "/api/v1/dashboard/news/articles/",
                 titleAdd: t("add_articles"),
                 titleEdit: t("edit_articles"),
                 searchKeys: ['title_ar', 'title_en'],
@@ -317,7 +317,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 9. الإعلانات (Advertisements) ====================
         case 'advertisements':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/news/announcements/",
+                baseUrl: "/api/v1/dashboard/news/announcements/",
                 titleAdd: t("add_advertisements"),
                 titleEdit: t("edit_advertisements"),
                 searchKeys: ['title'],
@@ -325,16 +325,14 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { accessorKey: "university", header: t("university") },
                     { accessorKey: "title_ar", header: `${t("title")} (${t("arabic")})`},
                     { accessorKey: "title_en", header: `${t("title")} (${t("english")})`},
-                { accessorKey: "body_ar", header:`${t("body")} (${t("arabic")})`, ...renderContentCell("body_ar") },
-                { accessorKey: "body_en", header: `${t("body")} (${t("english")})`, ...renderContentCell("body_en") },
-
-
+                    { accessorKey: "body_ar", header:`${t("body")} (${t("arabic")})`, ...renderContentCell("body_ar") },
+                    { accessorKey: "body_en", header: `${t("body")} (${t("english")})`, ...renderContentCell("body_en") },
                     actionColumn,
                 ],
                 fields: [
                     { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
                     { name: "title_ar", label: t('title_ar'), placeholder: t("title_ar"), type: "text", required: true },
-                     { name: "title_en", label: t('title_en'), placeholder: t("title_en"), type: "text", required: true },
+                    { name: "title_en", label: t('title_en'), placeholder: t("title_en"), type: "text", required: true },
                     { name: "body_ar", label: t('body_ar'), placeholder: t("body_ar"), type: "textarea", required: true },
                     { name: "body_en", label: t('body_en'), placeholder: t("body_en"), type: "textarea", required: true },
                 ],
@@ -347,7 +345,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 10. الوظائف (Job Postings) ====================
         case 'job-postings':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/careers/postings/",
+                baseUrl: "/api/v1/dashboard/careers/postings/",
                 titleAdd: t("add_job"),
                 titleEdit: t("edit_job"),
                 searchKeys: ['title_ar', 'title_en', 'job_type'],
@@ -358,7 +356,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { accessorKey: "job_type", header: t("type_job") },
                     { accessorKey: "description_ar", header: `${t("description")} (${t("arabic")})`, ...renderContentCell("description_ar") },
                     { accessorKey: "description_en", header: `${t("description")} (${t("english")})`, ...renderContentCell("description_en") },
-                { accessorKey: "requirements_en", header: `${t("requirements")} (${t("english")})`, ...renderContentCell("requirements_en") },
+                    { accessorKey: "requirements_en", header: `${t("requirements")} (${t("english")})`, ...renderContentCell("requirements_en") },
                     { accessorKey: "requirements_ar", header: `${t("requirements")} (${t("arabic")})`, ...renderContentCell("requirements_ar") },
                     { accessorKey: "deadline", header: t("deadline") },
                     { accessorKey: "status", header: t("status") },
@@ -371,7 +369,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "job_type", placeholder: t("type_job"), type: 'text' },
                     { name: "description_ar", placeholder: t("description_ar"), type: 'textarea' },
                     { name: "description_en", placeholder: t("description_en"), type: 'textarea' },
-                     { name: "requirements_ar", placeholder: t("requirements_ar"), type: 'textarea' },
+                    { name: "requirements_ar", placeholder: t("requirements_ar"), type: 'textarea' },
                     { name: "requirements_en", placeholder: t("requirements_en"), type: 'textarea' },
                     { name: "deadline", placeholder: t("deadline"), type: 'date' },
                     { name: "status", placeholder: t("status"), type: "select", options: [{ value: "open", name: t("open") }, { value: "closed", name: t("closed") }] },
@@ -385,7 +383,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 11. الخدمات (Services) ====================
         case 'services':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/services/list/",
+                baseUrl: "/api/v1/dashboard/services/list/",
                 titleAdd: t("add_services"),
                 titleEdit: t("edit_services"),
                 searchKeys: ['name_ar', 'name_en', 'service_type'],
@@ -410,7 +408,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 12. الفروع (Branches) ====================
         case 'branches':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/core/branches/",
+                baseUrl: "/api/v1/dashboard/core/branches/",
                 titleAdd: t("add_branches"),
                 titleEdit: t("edit_branch"),
                 searchKeys: ['name'],
@@ -434,7 +432,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 13. اللغات (Languages) ====================
         case 'languages':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/core/languages/",
+                baseUrl: "/api/v1/dashboard/core/languages/",
                 titleAdd: t("add_language"),
                 titleEdit: t("edit_languages"),
                 searchKeys: ['label', 'code'],
@@ -453,7 +451,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 14. المكتبات (Library) ====================
         case 'library':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/services/library/",
+                baseUrl: "/api/v1/dashboard/services/library/",
                 titleAdd: t("add_library"),
                 titleEdit: t("edit_library"),
                 searchKeys: ['name'],
@@ -463,7 +461,6 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { accessorKey: "name_ar", header:`${t("library_name")}(${t("arabic")})` },
                     { accessorKey: "location_en", header: `${t("location")}(${t("english")})` },
                     { accessorKey: "location_ar", header: `${t("location")}(${t("arabic")})` },
-
                     { 
                         accessorKey: "url", 
                         header: t("url"),
@@ -474,7 +471,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                 fields: [
                     { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
                     { name: "name_en", placeholder: t("name_en"), type: 'text' },
-                     { name: "name_ar", placeholder: t("name_ar"), type: 'text' },
+                    { name: "name_ar", placeholder: t("name_ar"), type: 'text' },
                     { name: "location_en", placeholder: t("location_en"), type: 'text' },
                     { name: "location_ar", placeholder: t("location_ar"), type: 'text' },
                     { name: "access_url", placeholder: t("access_url"), type: 'url' },
@@ -488,12 +485,12 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         // ==================== 15. الصفحات الثابتة (Pages) ====================
         case 'pages':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/core/pages/",
+                baseUrl: "/api/v1/dashboard/core/pages/",
                 titleAdd: t("add_pages"),
                 titleEdit: t("edit_page"),
                 searchKeys: ['slug', 'title_ar', 'title_en'],
                 columns: [
-                { accessorKey: "university", header: t("university") },
+                    { accessorKey: "university", header: t("university") },
                     { accessorKey: "slug", header: t("slug") },
                     { accessorKey: "title_ar", header: `${t("title")} (${t("arabic")})`, ...renderContentCell("title_ar") },
                     { accessorKey: "title_en", header: `${t("title")} (${t("english")})`, ...renderContentCell("title_en") },
@@ -503,7 +500,7 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     actionColumn,
                 ],
                 fields: [
-        { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
                     { name: "slug", label: t("slug"), placeholder: t("slug"), type: "text", required: true },
                     { name: "page_type", label: t("page_type"), placeholder: t("page_type"), type: "text", required: true },
                     { name: "title_ar", label: `${t("title")} (${t("arabic")})`, placeholder: t("title_ar"), type: "text", required: true },
@@ -511,100 +508,101 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "content_ar", label: `${t("content")} (${t("arabic")})`, placeholder: t("content_ar"), type: "textarea", required: false },
                     { name: "content_en", label: `${t("content")} (${t("english")})`, placeholder: t("content_en"), type: "textarea", required: false },
                 ],
-  mapItem: (item) => {
+                mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
                     return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
-                }            };
+                }
+            };
 
         // ==================== 16. الطلاب (Students) ====================
-  case 'students':
-    return {
-        baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/admissions/students/",
-        titleAdd: t("add_student"),
-        titleEdit: t("edit_student"),
-        searchKeys: ['full_name', 'email', 'national_id'],
-        columns: [
-            { accessorKey: "full_name", header: t("full_name") },
-            { accessorKey: "email", header: t("email") },
-            { accessorKey: "national_id", header: t("national_id") },
-            { 
-                accessorKey: "status", 
-                header: t("status"),
-                cell: ({ getValue }) => <span className={`status-badge ${getValue()}`}>{t(getValue())}</span>
-            },
-            { 
-                accessorKey: "student_file", 
-                header: t("file"),
-                cell: ({ row }) => {
-                    const filePath = row.original?.student_file || row.original?.existing_file;
-                    if (!filePath) return "-";
+        case 'students':
+            return {
+                baseUrl: "/api/v1/dashboard/admissions/students/",
+                titleAdd: t("add_student"),
+                titleEdit: t("edit_student"),
+                searchKeys: ['full_name', 'email', 'national_id'],
+                columns: [
+                    { accessorKey: "full_name", header: t("full_name") },
+                    { accessorKey: "email", header: t("email") },
+                    { accessorKey: "national_id", header: t("national_id") },
+                    { 
+                        accessorKey: "status", 
+                        header: t("status"),
+                        cell: ({ getValue }) => <span className={`status-badge ${getValue()}`}>{t(getValue())}</span>
+                    },
+                    { 
+                        accessorKey: "student_file", 
+                        header: t("file"),
+                        cell: ({ row }) => {
+                            const filePath = row.original?.student_file || row.original?.existing_file;
+                            if (!filePath) return "-";
 
-                    const fileUrl = filePath.startsWith('http') 
-                        ? filePath 
-                        : `http://127.0.0.1:8000${filePath}`;
+                            const fileUrl = filePath.startsWith('http') 
+                                ? filePath 
+                                : `${import.meta.env.VITE_API_BASE_URL}${filePath}`;
 
-                    return (
-                        <a 
-                            href={fileUrl} 
-                            target="_blank" 
-                            rel="noreferrer" 
-                            className="view-file-link"
-                            style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
-                        >
-                            {t("view_file") || "View File"}
-                        </a>
-                    );
-                }
-            },
-            actionColumn,
-        ],
-        fields: [
-            { name: "full_name", placeholder: t("full_name"), type: "text" },
-            { name: "email", placeholder: t("email"), type: "email" },
-            { name: "national_id", placeholder: t("national_id"), type: "text" },
-            { 
-                name: "status", 
-                placeholder: t('status'), 
-                type: 'select',
-                options: [
-                    { value: "pending", name: t("pending") },
-                    { value: "accepted", name: t("accepted") },
-                    { value: "rejected", name: t("rejected") },
-                ]
-            },
-            { name: "student_file", placeholder: t("file"), type: "file" }
-        ],
-        fieldsEdit: [
-            { name: "full_name", placeholder: t("full_name"), type: "text" },
-            { name: "email", placeholder: t("email"), type: "email" },
-            { name: "national_id", placeholder: t("national_id"), type: "text" },
-            { 
-                name: "status", 
-                placeholder: t('status'), 
-                type: 'select',
-                options: [
-                    { value: "pending", name: t("pending") },
-                    { value: "accepted", name: t("accepted") },
-                    { value: "rejected", name: t("rejected") },
-                ]
-            },
-            { name: "student_file", placeholder: t("file"), type: "file" }
-        ],
-        mapItem: (item) => ({
-            ...item,
-            full_name: item?.full_name || "",
-            email: item?.email || "",
-            national_id: item?.national_id || "",
-            status: item?.status || "pending",
-            existing_file: item?.student_file || null,
-            student_file: null
-        })
-    };
+                            return (
+                                <a 
+                                    href={fileUrl} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="view-file-link"
+                                    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
+                                >
+                                    {t("view_file") || "View File"}
+                                </a>
+                            );
+                        }
+                    },
+                    actionColumn,
+                ],
+                fields: [
+                    { name: "full_name", placeholder: t("full_name"), type: "text" },
+                    { name: "email", placeholder: t("email"), type: "email" },
+                    { name: "national_id", placeholder: t("national_id"), type: "text" },
+                    { 
+                        name: "status", 
+                        placeholder: t('status'), 
+                        type: 'select',
+                        options: [
+                            { value: "pending", name: t("pending") },
+                            { value: "accepted", name: t("accepted") },
+                            { value: "rejected", name: t("rejected") },
+                        ]
+                    },
+                    { name: "student_file", placeholder: t("file"), type: "file" }
+                ],
+                fieldsEdit: [
+                    { name: "full_name", placeholder: t("full_name"), type: "text" },
+                    { name: "email", placeholder: t("email"), type: "email" },
+                    { name: "national_id", placeholder: t("national_id"), type: "text" },
+                    { 
+                        name: "status", 
+                        placeholder: t('status'), 
+                        type: 'select',
+                        options: [
+                            { value: "pending", name: t("pending") },
+                            { value: "accepted", name: t("accepted") },
+                            { value: "rejected", name: t("rejected") },
+                        ]
+                    },
+                    { name: "student_file", placeholder: t("file"), type: "file" }
+                ],
+                mapItem: (item) => ({
+                    ...item,
+                    full_name: item?.full_name || "",
+                    email: item?.email || "",
+                    national_id: item?.national_id || "",
+                    status: item?.status || "pending",
+                    existing_file: item?.student_file || null,
+                    student_file: null
+                })
+            };
 
         // ==================== 17. وسائل التواصل الاجتماعي (Social Media) ====================
         case 'social-media':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/core/social-media/",
+                baseUrl: "/api/v1/dashboard/core/social-media/",
                 titleAdd: t("add_socialMedia"),
                 titleEdit: t("edit_socialMedia"),
                 searchKeys: ['platform'],
@@ -630,34 +628,34 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
             };
 
         // ==================== 18. رسائل الاتصال (Contact Messages) ====================
-case 'contact-messages':
-    return {
-        baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/core/contact-messages/",
-        titleAdd: t("add_message"),
-        titleEdit: t("edit_Message"),
-        searchKeys: ['sender_name', 'subject', 'sender_email'],
-        columns: [
-            { accessorKey: "sender_name", header: t("sender_name") },
-            { accessorKey: "sender_email", header: t("sender_email") },
-            { accessorKey: "subject", header: t("subject") },
-            { accessorKey: "message", header: t("message"), ...renderContentCell("message") },
-            actionColumn,
-        ],
-        fields: [
-            { name: "sender_name", placeholder: t("sender_name"), type: "text" },
-            { name: "sender_email", placeholder: t("sender_email"), type: "email" },
-            { name: "subject", placeholder: t("subject"), type: "text" },
-            { name: "message", placeholder: t("message"), type: "textarea" },
-        ],
-        mapItem: (item) => item
-    };
+        case 'contact-messages':
+            return {
+                baseUrl: "/api/v1/dashboard/core/contact-messages/",
+                titleAdd: t("add_message"),
+                titleEdit: t("edit_Message"),
+                searchKeys: ['sender_name', 'subject', 'sender_email'],
+                columns: [
+                    { accessorKey: "sender_name", header: t("sender_name") },
+                    { accessorKey: "sender_email", header: t("sender_email") },
+                    { accessorKey: "subject", header: t("subject") },
+                    { accessorKey: "message", header: t("message"), ...renderContentCell("message") },
+                    actionColumn,
+                ],
+                fields: [
+                    { name: "sender_name", placeholder: t("sender_name"), type: "text" },
+                    { name: "sender_email", placeholder: t("sender_email"), type: "email" },
+                    { name: "subject", placeholder: t("subject"), type: "text" },
+                    { name: "message", placeholder: t("message"), type: "textarea" },
+                ],
+                mapItem: (item) => item
+            };
 
         // ==================== 19. معلومات القبول (Admissions Info) ====================
         case 'admissions-info':
             return {
-                baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/admissions/info/",
+                baseUrl: "/api/v1/dashboard/admissions/info/",
                 titleAdd: t("add_admission"),
-               titleEdit: t("edit_admissions"),
+                titleEdit: t("edit_admissions"),
                 searchKeys: ['program', '_prog_name_ar', '_prog_name_en'],
                 columns: [
                     { accessorKey: "program", header: t("program") },
@@ -698,171 +696,166 @@ case 'contact-messages':
             };
 
         // ==================== 20. طلبات التوظيف (Job Applications) ====================
-       case 'applications':
-        return {
-            baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/careers/applications/",
-            titleAdd: t("add_applications"),
-            titleEdit: t("edit_application"),
-            searchKeys: ['applicant_name', 'applicant_email'],
-            columns: [
-                { accessorKey: "job", header: t("job") },
-                { accessorKey: "applicant_name", header: t("applicant_name") },
-                { accessorKey: "applicant_email", header: t("applicant_email") },
-                {
-                    accessorKey: "cv",
-                    header: t("cv"),
-                    cell: ({ row }) => {
-                        const cvUrl = row.original.cv;
-                        return (
-                            <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="cv-link" download>
-                                <TbFileCvFilled className='cv text-4xl text-[var(--color-light-main)] block m-auto' />
-                            </a>
-                        );
-                    }
-                },
-                actionColumn,
-            ],
-            fields: [
-                {
-                    name: "job",
-                    placeholder: t("job"),
-                    type: 'select',
-                    options: jopPosting.map((uni) => ({
-                        value: uni.id,
-                        name: uni.title_ar || uni.title_en 
-                    }))
-                },
-                { name: "applicant_name", placeholder: t("applicant_name"), type: 'text' },
-                { name: "applicant_email", placeholder: t("applicant_email"), type: 'email' },
-                { name: "cv", placeholder: t("cv"), type: 'file' },
-            ],
-            mapItem: (item) => {
-                const jobId = typeof item.job === 'object' && item.job !== null ? item.job.id : item.job;
-                const targetJob = jopPosting.find((uni) => Number(uni.id) === Number(jobId));
-                
-                return {
-                    ...item,
-                    job: targetJob 
-                        ? (targetJob.title_ar || targetJob.title_en) 
-                        : (item.job?.title_ar || item.job?.title_en || item.job)
-                        
-                };
-            }
-        };
+        case 'applications':
+            return {
+                baseUrl: "/api/v1/dashboard/careers/applications/",
+                titleAdd: t("add_applications"),
+                titleEdit: t("edit_application"),
+                searchKeys: ['applicant_name', 'applicant_email'],
+                columns: [
+                    { accessorKey: "job", header: t("job") },
+                    { accessorKey: "applicant_name", header: t("applicant_name") },
+                    { accessorKey: "applicant_email", header: t("applicant_email") },
+                    {
+                        accessorKey: "cv",
+                        header: t("cv"),
+                        cell: ({ row }) => {
+                            const cvUrl = row.original.cv;
+                            return (
+                                <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="cv-link" download>
+                                    <TbFileCvFilled className='cv text-4xl text-[var(--color-light-main)] block m-auto' />
+                                </a>
+                            );
+                        }
+                    },
+                    actionColumn,
+                ],
+                fields: [
+                    {
+                        name: "job",
+                        placeholder: t("job"),
+                        type: 'select',
+                        options: jopPosting.map((uni) => ({
+                            value: uni.id,
+                            name: uni.title_ar || uni.title_en 
+                        }))
+                    },
+                    { name: "applicant_name", placeholder: t("applicant_name"), type: 'text' },
+                    { name: "applicant_email", placeholder: t("applicant_email"), type: 'email' },
+                    { name: "cv", placeholder: t("cv"), type: 'file' },
+                ],
+                mapItem: (item) => {
+                    const jobId = typeof item.job === 'object' && item.job !== null ? item.job.id : item.job;
+                    const targetJob = jopPosting.find((uni) => Number(uni.id) === Number(jobId));
+                    
+                    return {
+                        ...item,
+                        job: targetJob 
+                            ? (targetJob.title_ar || targetJob.title_en) 
+                            : (item.job?.title_ar || item.job?.title_en || item.job)
+                            
+                    };
+                }
+            };
 
         // ==================== 21. طلبات قبول الطلاب (Student Admissions Applications) ====================
-       case 'applicationsStudent':
-    return {
-        baseUrl: "http://127.0.0.1:8000/api/v1/dashboard/admissions/applications/",
-        titleAdd: t("add_application"),
-        titleEdit: t("edit_application"),
-        searchKeys: ['student_details.full_name'],
-        columns: [
-            { accessorKey: "student_details.full_name", header: t("student") },
-            { accessorKey: "student_details.email", header: t("email") },
-            { 
-                accessorKey: "program_details", 
-                header: t("program"),
-                cell: ({ row }) => {
-                    const program = row.original?.program_details;
-                    if (!program) return "-";
-                    return i18n?.language === 'ar' ? (program.name_ar || program.name_en) : (program.name_en || program.name_ar);
-                }
-            },
-            { accessorKey: "status", header: t("status"), cell: ({ row }) => t(row.original?.status || "pending") },
-            { 
-                accessorKey: "apply_date", 
-                header: t("apply_date"),
-                cell: ({ row }) => {
-                    const dateVal = row.original?.apply_date;
-                    if (!dateVal) return "-";
-                    return new Date(dateVal).toLocaleDateString(i18n?.language, {
-                        year: 'numeric',
-                        month: 'long', 
-                        day: 'numeric'
-                    });
-                }
-            },
-          { 
-    accessorKey: "form_file", 
-    header: t("file"),
-    cell: ({ row }) => {
-        // فحص الحقلين (form_file أو existing_file)
-        const filePath = row.original?.form_file || row.original?.existing_file;
+        case 'applicationsStudent':
+            return {
+                baseUrl: "/api/v1/dashboard/admissions/applications/",
+                titleAdd: t("add_application"),
+                titleEdit: t("edit_application"),
+                searchKeys: ['student_details.full_name'],
+                columns: [
+                    { accessorKey: "student_details.full_name", header: t("student") },
+                    { accessorKey: "student_details.email", header: t("email") },
+                    { 
+                        accessorKey: "program_details", 
+                        header: t("program"),
+                        cell: ({ row }) => {
+                            const program = row.original?.program_details;
+                            if (!program) return "-";
+                            return i18n?.language === 'ar' ? (program.name_ar || program.name_en) : (program.name_en || program.name_ar);
+                        }
+                    },
+                    { accessorKey: "status", header: t("status"), cell: ({ row }) => t(row.original?.status || "pending") },
+                    { 
+                        accessorKey: "apply_date", 
+                        header: t("apply_date"),
+                        cell: ({ row }) => {
+                            const dateVal = row.original?.apply_date;
+                            if (!dateVal) return "-";
+                            return new Date(dateVal).toLocaleDateString(i18n?.language, {
+                                year: 'numeric',
+                                month: 'long', 
+                                day: 'numeric'
+                            });
+                        }
+                    },
+                    { 
+                        accessorKey: "form_file", 
+                        header: t("file"),
+                        cell: ({ row }) => {
+                            const filePath = row.original?.form_file || row.original?.existing_file;
+                            if (!filePath) return "-";
 
-        if (!filePath) return "-";
+                            const fileUrl = filePath.startsWith('http') 
+                                ? filePath 
+                                : `${import.meta.env.VITE_API_BASE_URL}${filePath}`;
 
-        // إذا كان الرابط يبدأ بـ http، نستخدمه كما هو. وإذا كان نسبياً نضيف الدومين.
-        const fileUrl = filePath.startsWith('http') 
-            ? filePath 
-            : `http://127.0.0.1:8000${filePath}`;
-
-        return (
-            <a 
-                href={fileUrl} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="view-file-link"
-                style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
-            >
-                {t("view_file") || "View File"}
-            </a>
-        );
-    }
-},
-            actionColumn,
-        ],
-        fields: [
-            { name: "full_name", placeholder: t("full_name"), type: "text" },
-            { name: "email", placeholder: t("email"), type: "email" },
-            { name: "national_id", placeholder: t("national_id"), type: "text" },
-            {
-                name: "program",
-                placeholder: t("program"),
-                type: "select",
-                options: programs.map((p) => ({
-                    value: p.id,
-                    name: i18n?.language === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar)
-                }))
-            },
-            { name: "form_file", placeholder: t("file"), type: "file" }
-        ],
-        fieldsEdit: [
-            { name: "full_name", placeholder: t("student_name"), type: "text" },
-            { name: "email", placeholder: t("email"), type: "email" },
-            {
-                name: "program",
-                placeholder: t("program"),
-                type: "select",
-                options: programs.map((p) => ({
-                    value: p.id,
-                    name: i18n?.language === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar)
-                }))
-            },
-            {
-                name: "status",
-                placeholder: t("status"),
-                type: "select",
-                options: [
-                    { value: "pending", name: t("pending") },
-                    { value: "accepted", name: t("accepted") },
-                    { value: "rejected", name: t("rejected") },
-                ]
-            },
-            { name: "form_file", placeholder: t("file"), type: "file" }
-        ],
-mapItem: (item) => ({
-    ...item,
-    full_name: item?.student_details?.full_name || item?.full_name || "",
-    email: item?.student_details?.email || item?.email || "",
-    program: item?.program_details?.id || item?.program || "",
-    status: item?.status || "pending",
-    
-    existing_file: item?.form_file || null, 
-    
-    form_file: null 
-})
-    };
+                            return (
+                                <a 
+                                    href={fileUrl} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className="view-file-link"
+                                    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
+                                >
+                                    {t("view_file") || "View File"}
+                                </a>
+                            );
+                        }
+                    },
+                    actionColumn,
+                ],
+                fields: [
+                    { name: "full_name", placeholder: t("full_name"), type: "text" },
+                    { name: "email", placeholder: t("email"), type: "email" },
+                    { name: "national_id", placeholder: t("national_id"), type: "text" },
+                    {
+                        name: "program",
+                        placeholder: t("program"),
+                        type: "select",
+                        options: programs.map((p) => ({
+                            value: p.id,
+                            name: i18n?.language === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar)
+                        }))
+                    },
+                    { name: "form_file", placeholder: t("file"), type: "file" }
+                ],
+                fieldsEdit: [
+                    { name: "full_name", placeholder: t("student_name"), type: "text" },
+                    { name: "email", placeholder: t("email"), type: "email" },
+                    {
+                        name: "program",
+                        placeholder: t("program"),
+                        type: "select",
+                        options: programs.map((p) => ({
+                            value: p.id,
+                            name: i18n?.language === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar)
+                        }))
+                    },
+                    {
+                        name: "status",
+                        placeholder: t("status"),
+                        type: "select",
+                        options: [
+                            { value: "pending", name: t("pending") },
+                            { value: "accepted", name: t("accepted") },
+                            { value: "rejected", name: t("rejected") },
+                        ]
+                    },
+                    { name: "form_file", placeholder: t("file"), type: "file" }
+                ],
+                mapItem: (item) => ({
+                    ...item,
+                    full_name: item?.student_details?.full_name || item?.full_name || "",
+                    email: item?.student_details?.email || item?.email || "",
+                    program: item?.program_details?.id || item?.program || "",
+                    status: item?.status || "pending",
+                    existing_file: item?.form_file || null, 
+                    form_file: null 
+                })
+            };
 
         default:
             return null;
