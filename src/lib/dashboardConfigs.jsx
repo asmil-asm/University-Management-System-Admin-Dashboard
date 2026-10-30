@@ -24,11 +24,11 @@ const resolveImageUrl = (path) => {
     if (/^https?:\/\//i.test(path)) return path;
     if (path.startsWith("//")) return `https:${path}`;
     
-    const cleanOrigin = API_ORIGIN.replace(/\/+$/, '');
+    const baseDomain = API_ORIGIN.split('/api/v1')[0].replace(/\/+$/, '');
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
     
-    return `${cleanOrigin}${cleanPath}`;
-};;
+    return `${baseDomain}${cleanPath}`;
+};
 
     const isAr = i18n?.language === 'ar';
     const pickName = (obj, arKey = 'name_ar', enKey = 'name_en') => {
