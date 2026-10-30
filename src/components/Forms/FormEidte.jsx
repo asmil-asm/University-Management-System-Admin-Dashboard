@@ -47,7 +47,7 @@ function FormEidte({ title, fields, onUpdate, isPending }) {
                                     <div style={{ marginBottom: '8px', fontSize: '13px' }}>
                                         <span className={mood ? 'text-gray-400' : 'text-gray-600'}>{t("current_file")}: </span>
                                         <a 
-                                            href={`hhttps://university-management-system-607v.onrender.com${formData.existing_file}`} 
+                                            href={`https://university-management-system-607v.onrender.com${formData.existing_file}`} 
                                             target="_blank" 
                                             rel="noreferrer"
                                             style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}

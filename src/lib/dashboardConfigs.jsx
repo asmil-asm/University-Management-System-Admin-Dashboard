@@ -17,18 +17,26 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         { name_en: 'phd',      name_ar: 'دكتوراه'   },
         { name_en: 'diploma',  name_ar: 'دبلوم'     },
     ];
-const API_ORIGIN = import.meta.env.VITE_API_BASE_URL 
 
-const resolveImageUrl = (path) => {
-    if (!path) return "";
-    // رابط مطلق أصلاً
-    if (/^https?:\/\//i.test(path)) return path;
-    // بروتوكول نسبي
-    if (path.startsWith("//")) return `https:${path}`;
-    // رابط نسبي → نضيف origin الـ API
-    const normalized = path.startsWith("/") ? path : `/${path}`;
-    return `${API_ORIGIN}${normalized}`;
-};
+    const API_ORIGIN = import.meta.env.VITE_API_BASE_URL;
+
+    const resolveImageUrl = (path) => {
+        if (!path) return "";
+        if (/^https?:\/\//i.test(path)) return path;
+        if (path.startsWith("//")) return `https:${path}`;
+        const normalized = path.startsWith("/") ? path : `/${path}`;
+        return `${API_ORIGIN}${normalized}`;
+    };
+
+    // ✅ جديد: تحديد اللغة الحالية + دالة اختيار الاسم
+    const isAr = i18n?.language === 'ar';
+    const pickName = (obj, arKey = 'name_ar', enKey = 'name_en') => {
+        if (!obj) return '';
+        return isAr
+            ? (obj[arKey] || obj[enKey] || '')
+            : (obj[enKey] || obj[arKey] || '');
+    };
+
     const { openDeleteModal, setContent } = handlers;
 
     const actionColumn = {
@@ -61,7 +69,7 @@ const resolveImageUrl = (path) => {
     });
 
     switch (resourceType) {
-        // ==================== 1. الجامعات (Universities) ====================
+        // ==================== 1. الجامعات ====================
         case 'universities':
             return {
                 baseUrl: "/api/v1/dashboard/core/universities/",
@@ -86,7 +94,7 @@ const resolveImageUrl = (path) => {
                 mapItem: (item) => item
             };
 
-        // ==================== 2. الكليات (Colleges) ====================
+        // ==================== 2. الكليات ====================
         case 'colleges':
             return {
                 baseUrl: "/api/v1/dashboard/academics/colleges/",
@@ -107,9 +115,8 @@ const resolveImageUrl = (path) => {
                             return (
                                 <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
                                     {imgs.length > 0 ? imgs.map((imgObj, idx) => (
-                <img key={idx}     src={resolveImageUrl(imgObj.image)}
- alt="college" 
- style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                                        <img key={idx} src={resolveImageUrl(imgObj.image)} alt="college"
+                                            style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
                                     )) : <span>-</span>}
                                 </div>
                             );
@@ -118,7 +125,7 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "name_ar", label: `${t("name")} (${t("arabic")})`, placeholder: t("name_ar"), type: "text", required: true },
                     { name: "name_en", label: `${t("name")} (${t("english")})`, placeholder: t("name_en"), type: "text", required: true },
                     { name: "description_ar", label: `${t("Description")} (${t("arabic")})`, placeholder: t("description_ar"), type: "textarea" },
@@ -127,11 +134,11 @@ const resolveImageUrl = (path) => {
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 3. الأقسام (Departments) ====================
+        // ==================== 3. الأقسام ====================
         case 'departments':
             return {
                 baseUrl: "/api/v1/dashboard/academics/departments/",
@@ -145,17 +152,17 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "college", label: t("collage"), placeholder: t("collage"), type: "select", required: true, options: colleges.map(c => ({ value: c.id, name: c.name_ar || c.name_en })) },
+                    { name: "college", label: t("collage"), placeholder: t("collage"), type: "select", required: true, options: colleges.map(c => ({ value: c.id, name: pickName(c) })) },
                     { name: "name_ar", label: t("department_ar"), placeholder: t("department_ar"), type: "text", required: true },
                     { name: "name_en", label: t("department_en"), placeholder: t("department_en"), type: "text", required: true },
                 ],
                 mapItem: (item) => {
                     const targetCol = colleges.find(c => Number(c.id) === Number(item.college));
-                    return { ...item, college: targetCol ? (targetCol.name_ar || targetCol.name_en) : item.college };
+                    return { ...item, college: targetCol ? pickName(targetCol) : item.college };
                 }
             };
 
-        // ==================== 4. البرامج الأكاديمية (Programs) ====================
+        // ==================== 4. البرامج ====================
         case 'programs':
             return {
                 baseUrl: "/api/v1/dashboard/academics/programs/",
@@ -170,21 +177,18 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "department", label: t("department"), placeholder: t("department"), type: "select", required: true, options: departments.map(d => ({ value: d.id, name: d.name_ar || d.name_en })) },
+                    { name: "department", label: t("department"), placeholder: t("department"), type: "select", required: true, options: departments.map(d => ({ value: d.id, name: pickName(d) })) },
                     { name: "name_ar", label: t("program_ar"), placeholder: t("program_ar"), type: "text", required: true },
                     { name: "name_en", label: t("program_en"), placeholder: t("program_en"), type: "text", required: true },
-                    { name: "level", label: t("level"), placeholder: t("level"), type: "select", required: true, options: optionsProgram.map((p) => ({
-                        value: p.name_en,             
-                        name: p.name_ar || p.name_en, 
-                    })) },
+                    { name: "level", label: t("level"), placeholder: t("level"), type: "select", required: true, options: optionsProgram.map(p => ({ value: p.name_en, name: pickName(p) })) },
                 ],
                 mapItem: (item) => {
                     const targetDep = departments.find(d => Number(d.id) === Number(item.department));
-                    return { ...item, department: targetDep ? (targetDep.name_ar || targetDep.name_en) : item.department };
+                    return { ...item, department: targetDep ? pickName(targetDep) : item.department };
                 }
             };
 
-        // ==================== 5. الكادر التدريسي (Staff) ====================
+        // ==================== 5. الكادر التدريسي ====================
         case 'staff':
             return {
                 baseUrl: "/api/v1/dashboard/academics/staff/",
@@ -200,18 +204,22 @@ const resolveImageUrl = (path) => {
                     { accessorKey: "bio_en", header: `${t("bio")} (${t("english")})`, ...renderContentCell("bio_en") },
                     { accessorKey: "email", header: t("email") },
                     { accessorKey: "staff_type", header: t("type_staff") },
-                    { 
-                        accessorKey: "image", 
+                    {
+                        accessorKey: "image",
                         header: t("image"),
                         cell: ({ row }) => {
-                            const imgUrl = row.original.image || row.original.photo;
-                            return imgUrl ? <img src={imgUrl} alt="staff" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }} /> : <span>-</span>;
+                            const imgUrl = resolveImageUrl(row.original.image || row.original.photo);
+                            return imgUrl
+                                ? <img src={imgUrl} alt="staff"
+                                       style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%' }}
+                                       onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                                : <span>-</span>;
                         }
                     },
                     actionColumn,
                 ],
                 fields: [
-                    { name: "department", placeholder: t("department"), type: 'select', options: departments.map(d => ({ value: d.id, name: d.name_ar || d.name_en })) },
+                    { name: "department", placeholder: t("department"), type: 'select', options: departments.map(d => ({ value: d.id, name: pickName(d) })) },
                     { name: "full_name", placeholder: t("full_name"), type: 'text' },
                     { name: "title_ar", placeholder: t("title_ar"), type: 'text' },
                     { name: "title_en", placeholder: t("title_en"), type: 'text' },
@@ -223,11 +231,11 @@ const resolveImageUrl = (path) => {
                 ],
                 mapItem: (item) => {
                     const targetDep = departments.find(d => Number(d.id) === Number(item.department));
-                    return { ...item, department: targetDep ? (targetDep.name_ar || targetDep.name_en) : item.department };
+                    return { ...item, department: targetDep ? pickName(targetDep) : item.department };
                 }
             };
 
-        // ==================== 6. الأبحاث العلمية (Research) ====================
+        // ==================== 6. الأبحاث ====================
         case 'research':
             return {
                 baseUrl: "/api/v1/dashboard/academics/research/",
@@ -263,7 +271,7 @@ const resolveImageUrl = (path) => {
                 }
             };
 
-        // ==================== 7. الفعاليات (Events) ====================
+        // ==================== 7. الفعاليات ====================
         case 'events':
             return {
                 baseUrl: "/api/v1/dashboard/news/events/",
@@ -278,21 +286,21 @@ const resolveImageUrl = (path) => {
                     { accessorKey: "location", header: t("location") },
                     { accessorKey: "description_ar", header: `${t("description")} (${t("arabic")})`, ...renderContentCell("description_ar") },
                     { accessorKey: "description_en", header: `${t("description")} (${t("english")})`, ...renderContentCell("description_en") },
-                   {
-    accessorKey: "image",
-    header: t("image"),
-    cell: ({ row }) => {
-        const src = resolveImageUrl(row.original.image);
-        return src
-            ? <img src={src} alt="event" className="image block m-auto !w-[70px]"
-                   onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-            : <span>-</span>;
-    }
-},
+                    {
+                        accessorKey: "image",
+                        header: t("image"),
+                        cell: ({ row }) => {
+                            const src = resolveImageUrl(row.original.image);
+                            return src
+                                ? <img src={src} alt="event" className="image block m-auto !w-[70px]"
+                                       onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                                : <span>-</span>;
+                        }
+                    },
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "title_ar", placeholder: t("title_ar"), type: 'text' },
                     { name: "title_en", placeholder: t("title_en"), type: 'text' },
                     { name: "event_date", placeholder: t("event_date"), type: 'datetime-local' },
@@ -301,17 +309,17 @@ const resolveImageUrl = (path) => {
                     { name: "description_en", placeholder: t("description_en"), type: 'textarea' },
                     { name: "image", placeholder: t("image"), type: 'file' },
                 ],
-               mapItem: (item) => {
-    const targetUni = university.find(u => Number(u.id) === Number(item.university));
-    return {
-        ...item,
-        university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university,
-        existing_file: item.image || null,
-    };
-}
+                mapItem: (item) => {
+                    const targetUni = university.find(u => Number(u.id) === Number(item.university));
+                    return {
+                        ...item,
+                        university: targetUni ? pickName(targetUni) : item.university,
+                        existing_file: item.image || null,
+                    };
+                }
             };
 
-        // ==================== 8. المقالات (Articles) ====================
+        // ==================== 8. المقالات ====================
         case 'articles':
             return {
                 baseUrl: "/api/v1/dashboard/news/articles/",
@@ -324,38 +332,38 @@ const resolveImageUrl = (path) => {
                     { accessorKey: "title_en", header: `${t("title")} (${t("english")})`, ...renderContentCell("title_en") },
                     { accessorKey: "content_ar", header: `${t("content")} (${t("arabic")})`, ...renderContentCell("content_ar") },
                     { accessorKey: "content_en", header: `${t("content")} (${t("english")})`, ...renderContentCell("content_en") },
-                   {
-    accessorKey: "image",
-    header: t("image"),
-    cell: ({ row }) => {
-        const src = resolveImageUrl(row.original.image);
-        return src
-            ? <img src={src} alt="article" className="image block m-auto !w-[70px]"
-                   onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-            : <span>-</span>;
-    }
-},
+                    {
+                        accessorKey: "image",
+                        header: t("image"),
+                        cell: ({ row }) => {
+                            const src = resolveImageUrl(row.original.image);
+                            return src
+                                ? <img src={src} alt="article" className="image block m-auto !w-[70px]"
+                                       onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                                : <span>-</span>;
+                        }
+                    },
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "title_ar", placeholder: t("title_ar"), type: 'text' },
                     { name: "title_en", placeholder: t("title_en"), type: 'text' },
                     { name: "content_ar", placeholder: t("content_ar"), type: 'textarea' },
                     { name: "content_en", placeholder: t("content_en"), type: 'textarea' },
                     { name: "image", placeholder: t("image"), type: 'file' },
                 ],
-               mapItem: (item) => {
-    const targetUni = university.find(u => Number(u.id) === Number(item.university));
-    return {
-        ...item,
-        university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university,
-        existing_file: item.image || null,
-    };
-}
+                mapItem: (item) => {
+                    const targetUni = university.find(u => Number(u.id) === Number(item.university));
+                    return {
+                        ...item,
+                        university: targetUni ? pickName(targetUni) : item.university,
+                        existing_file: item.image || null,
+                    };
+                }
             };
 
-        // ==================== 9. الإعلانات (Advertisements) ====================
+        // ==================== 9. الإعلانات ====================
         case 'advertisements':
             return {
                 baseUrl: "/api/v1/dashboard/news/announcements/",
@@ -371,7 +379,7 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "title_ar", label: t('title_ar'), placeholder: t("title_ar"), type: "text", required: true },
                     { name: "title_en", label: t('title_en'), placeholder: t("title_en"), type: "text", required: true },
                     { name: "body_ar", label: t('body_ar'), placeholder: t("body_ar"), type: "textarea", required: true },
@@ -379,11 +387,11 @@ const resolveImageUrl = (path) => {
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 10. الوظائف (Job Postings) ====================
+        // ==================== 10. الوظائف ====================
         case 'job-postings':
             return {
                 baseUrl: "/api/v1/dashboard/careers/postings/",
@@ -404,7 +412,7 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "title_ar", placeholder: t("title_ar"), type: 'text' },
                     { name: "title_en", placeholder: t("title_en"), type: 'text' },
                     { name: "job_type", placeholder: t("type_job"), type: 'text' },
@@ -417,11 +425,11 @@ const resolveImageUrl = (path) => {
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 11. الخدمات (Services) ====================
+        // ==================== 11. الخدمات ====================
         case 'services':
             return {
                 baseUrl: "/api/v1/dashboard/services/list/",
@@ -446,7 +454,7 @@ const resolveImageUrl = (path) => {
                 mapItem: (item) => item
             };
 
-        // ==================== 12. الفروع (Branches) ====================
+        // ==================== 12. الفروع ====================
         case 'branches':
             return {
                 baseUrl: "/api/v1/dashboard/core/branches/",
@@ -460,17 +468,17 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "name", placeholder: t("branch_name"), type: 'text' },
                     { name: "address", placeholder: t("address"), type: 'text' },
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 13. اللغات (Languages) ====================
+        // ==================== 13. اللغات ====================
         case 'languages':
             return {
                 baseUrl: "/api/v1/dashboard/core/languages/",
@@ -489,7 +497,7 @@ const resolveImageUrl = (path) => {
                 mapItem: (item) => item
             };
 
-        // ==================== 14. المكتبات (Library) ====================
+        // ==================== 14. المكتبات ====================
         case 'library':
             return {
                 baseUrl: "/api/v1/dashboard/services/library/",
@@ -510,21 +518,20 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "name_en", placeholder: t("name_en"), type: 'text' },
                     { name: "name_ar", placeholder: t("name_ar"), type: 'text' },
-                                        { name: "location_ar", placeholder: t("location_ar"), type: 'text' },
-
+                    { name: "location_ar", placeholder: t("location_ar"), type: 'text' },
                     { name: "location_en", placeholder: t("location_en"), type: 'text' },
                     { name: "access_url", placeholder: t("access_url"), type: 'url' },
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 15. الصفحات الثابتة (Pages) ====================
+        // ==================== 15. الصفحات ====================
         case 'pages':
             return {
                 baseUrl: "/api/v1/dashboard/core/pages/",
@@ -532,18 +539,7 @@ const resolveImageUrl = (path) => {
                 titleEdit: t("edit_page"),
                 searchKeys: ['slug', 'title_ar', 'title_en'],
                 columns: [
-                    { accessorKey: "university",
-    header: t("university"),
-    cell: ({ row }) => {
-        const raw = row.original.university;
-
-        if (raw && typeof raw === "object") {
-            return raw.name_ar || raw.name_en || "-";
-        }
-
-        const found = university?.find(u => Number(u.id) === Number(raw));
-        return found ? (found.name_ar || found.name_en) : (raw ?? "-");
-    } },
+                    { accessorKey: "university", header: t("university") },
                     { accessorKey: "slug", header: t("slug") },
                     { accessorKey: "title_ar", header: `${t("title")} (${t("arabic")})`, ...renderContentCell("title_ar") },
                     { accessorKey: "title_en", header: `${t("title")} (${t("english")})`, ...renderContentCell("title_en") },
@@ -553,7 +549,7 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "slug", label: t("slug"), placeholder: t("slug"), type: "text", required: true },
                     { name: "page_type", label: t("page_type"), placeholder: t("page_type"), type: "text", required: true },
                     { name: "title_ar", label: `${t("title")} (${t("arabic")})`, placeholder: t("title_ar"), type: "text", required: true },
@@ -563,11 +559,11 @@ const resolveImageUrl = (path) => {
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 16. الطلاب (Students) ====================
+        // ==================== 16. الطلاب ====================
         case 'students':
             return {
                 baseUrl: "/api/v1/dashboard/admissions/students/",
@@ -595,13 +591,8 @@ const resolveImageUrl = (path) => {
                                 : `${import.meta.env.VITE_API_BASE_URL}${filePath}`;
 
                             return (
-                                <a 
-                                    href={fileUrl} 
-                                    target="_blank" 
-                                    rel="noreferrer" 
-                                    className="view-file-link"
-                                    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
-                                >
+                                <a href={fileUrl} target="_blank" rel="noreferrer" className="view-file-link"
+                                   style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}>
                                     {t("view_file") || "View File"}
                                 </a>
                             );
@@ -614,9 +605,7 @@ const resolveImageUrl = (path) => {
                     { name: "email", placeholder: t("email"), type: "email" },
                     { name: "national_id", placeholder: t("national_id"), type: "text" },
                     { 
-                        name: "status", 
-                        placeholder: t('status'), 
-                        type: 'select',
+                        name: "status", placeholder: t('status'), type: 'select',
                         options: [
                             { value: "pending", name: t("pending") },
                             { value: "accepted", name: t("accepted") },
@@ -630,9 +619,7 @@ const resolveImageUrl = (path) => {
                     { name: "email", placeholder: t("email"), type: "email" },
                     { name: "national_id", placeholder: t("national_id"), type: "text" },
                     { 
-                        name: "status", 
-                        placeholder: t('status'), 
-                        type: 'select',
+                        name: "status", placeholder: t('status'), type: 'select',
                         options: [
                             { value: "pending", name: t("pending") },
                             { value: "accepted", name: t("accepted") },
@@ -652,7 +639,7 @@ const resolveImageUrl = (path) => {
                 })
             };
 
-        // ==================== 17. وسائل التواصل الاجتماعي (Social Media) ====================
+        // ==================== 17. وسائل التواصل ====================
         case 'social-media':
             return {
                 baseUrl: "/api/v1/dashboard/core/social-media/",
@@ -670,17 +657,17 @@ const resolveImageUrl = (path) => {
                     actionColumn,
                 ],
                 fields: [
-                    { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
+                    { name: "university", placeholder: t("university"), type: "select", options: university.map(u => ({ value: u.id, name: pickName(u) })) },
                     { name: "platform", placeholder: t("platform"), type: "text" },
                     { name: "url", placeholder: t("url"), type: "text" },
                 ],
                 mapItem: (item) => {
                     const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
                 }
             };
 
-        // ==================== 18. رسائل الاتصال (Contact Messages) ====================
+        // ==================== 18. رسائل الاتصال ====================
         case 'contact-messages':
             return {
                 baseUrl: "/api/v1/dashboard/core/contact-messages/",
@@ -703,7 +690,7 @@ const resolveImageUrl = (path) => {
                 mapItem: (item) => item
             };
 
-        // ==================== 19. معلومات القبول (Admissions Info) ====================
+        // ==================== 19. معلومات القبول ====================
         case 'admissions-info':
             return {
                 baseUrl: "/api/v1/dashboard/admissions/info/",
@@ -725,10 +712,7 @@ const resolveImageUrl = (path) => {
                         name: "program",
                         placeholder: t("program"),
                         type: "select",
-                        options: programs.map((p) => ({
-                            value: p.id,
-                            name: i18n?.language === 'ar' ? p.name_ar :p.name_en
-                        }))
+                        options: programs.map(p => ({ value: p.id, name: pickName(p) }))
                     },
                     { name: "requirements_ar", placeholder: t("requirements_ar"), type: 'textarea' },
                     { name: "requirements_en", placeholder: t("requirements_en"), type: 'textarea' },
@@ -738,17 +722,17 @@ const resolveImageUrl = (path) => {
                     { name: "academic_calendar", placeholder: t("acadimec_calender"), type: 'date' },
                 ],
                 mapItem: (item) => {
-                    const targetProgram = programs.find((p) => Number(p.id) === Number(item.program));
+                    const targetProgram = programs.find(p => Number(p.id) === Number(item.program));
                     return {
                         ...item,
-                        program: targetProgram ? (targetProgram.name_ar || targetProgram.name_en) : item.program,
+                        program: targetProgram ? pickName(targetProgram) : item.program,
                         _prog_name_ar: targetProgram?.name_ar || "",
                         _prog_name_en: targetProgram?.name_en || ""
                     };
                 }
             };
 
-        // ==================== 20. طلبات التوظيف (Job Applications) ====================
+        // ==================== 20. طلبات التوظيف ====================
         case 'applications':
             return {
                 baseUrl: "/api/v1/dashboard/careers/applications/",
@@ -763,7 +747,7 @@ const resolveImageUrl = (path) => {
                         accessorKey: "cv",
                         header: t("cv"),
                         cell: ({ row }) => {
-                            const cvUrl = row.original.cv;
+                            const cvUrl = resolveImageUrl(row.original.cv);
                             return (
                                 <a href={cvUrl} target="_blank" rel="noopener noreferrer" className="cv-link" download>
                                     <TbFileCvFilled className='cv text-4xl text-[var(--color-light-main)] block m-auto' />
@@ -778,10 +762,7 @@ const resolveImageUrl = (path) => {
                         name: "job",
                         placeholder: t("job"),
                         type: 'select',
-                        options: jopPosting.map((uni) => ({
-                            value: uni.id,
-                            name: uni.title_ar || uni.title_en 
-                        }))
+                        options: jopPosting.map(j => ({ value: j.id, name: pickName(j, 'title_ar', 'title_en') }))
                     },
                     { name: "applicant_name", placeholder: t("applicant_name"), type: 'text' },
                     { name: "applicant_email", placeholder: t("applicant_email"), type: 'email' },
@@ -789,19 +770,19 @@ const resolveImageUrl = (path) => {
                 ],
                 mapItem: (item) => {
                     const jobId = typeof item.job === 'object' && item.job !== null ? item.job.id : item.job;
-                    const targetJob = jopPosting.find((uni) => Number(uni.id) === Number(jobId));
-                    
+                    const targetJob = jopPosting.find(j => Number(j.id) === Number(jobId));
                     return {
                         ...item,
-                        job: targetJob 
-                            ? (targetJob.title_ar || targetJob.title_en) 
-                            : (item.job?.title_ar || item.job?.title_en || item.job)
-                            
+                        job: targetJob
+                            ? pickName(targetJob, 'title_ar', 'title_en')
+                            : (isAr
+                                ? (item.job?.title_ar || item.job?.title_en || item.job)
+                                : (item.job?.title_en || item.job?.title_ar || item.job))
                     };
                 }
             };
 
-        // ==================== 21. طلبات قبول الطلاب (Student Admissions Applications) ====================
+        // ==================== 21. طلبات قبول الطلاب ====================
         case 'applicationsStudent':
             return {
                 baseUrl: "/api/v1/dashboard/admissions/applications/",
@@ -817,7 +798,7 @@ const resolveImageUrl = (path) => {
                         cell: ({ row }) => {
                             const program = row.original?.program_details;
                             if (!program) return "-";
-                            return i18n?.language === 'ar' ? (program.name_ar || program.name_en) : (program.name_en || program.name_ar);
+                            return pickName(program);
                         }
                     },
                     { accessorKey: "status", header: t("status"), cell: ({ row }) => t(row.original?.status || "pending") },
@@ -840,19 +821,12 @@ const resolveImageUrl = (path) => {
                         cell: ({ row }) => {
                             const filePath = row.original?.form_file || row.original?.existing_file;
                             if (!filePath) return "-";
-
-                            const fileUrl = filePath.startsWith('http') 
-                                ? filePath 
+                            const fileUrl = filePath.startsWith('http')
+                                ? filePath
                                 : `${import.meta.env.VITE_API_BASE_URL}${filePath}`;
-
                             return (
-                                <a 
-                                    href={fileUrl} 
-                                    target="_blank" 
-                                    rel="noreferrer" 
-                                    className="view-file-link"
-                                    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
-                                >
+                                <a href={fileUrl} target="_blank" rel="noreferrer" className="view-file-link"
+                                   style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}>
                                     {t("view_file") || "View File"}
                                 </a>
                             );
@@ -868,10 +842,7 @@ const resolveImageUrl = (path) => {
                         name: "program",
                         placeholder: t("program"),
                         type: "select",
-                        options: programs.map((p) => ({
-                            value: p.id,
-                            name: i18n?.language === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar)
-                        }))
+                        options: programs.map(p => ({ value: p.id, name: pickName(p) }))
                     },
                     { name: "form_file", placeholder: t("file"), type: "file" }
                 ],
@@ -882,10 +853,7 @@ const resolveImageUrl = (path) => {
                         name: "program",
                         placeholder: t("program"),
                         type: "select",
-                        options: programs.map((p) => ({
-                            value: p.id,
-                            name: i18n?.language === 'ar' ? (p.name_ar || p.name_en) : (p.name_en || p.name_ar)
-                        }))
+                        options: programs.map(p => ({ value: p.id, name: pickName(p) }))
                     },
                     {
                         name: "status",
