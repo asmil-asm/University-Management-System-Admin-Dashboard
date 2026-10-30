@@ -17,18 +17,19 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         { name_en: 'phd',      name_ar: 'دكتوراه'   },
         { name_en: 'diploma',  name_ar: 'دبلوم'     },
     ];
+const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || '';
 
-    const API_ORIGIN = import.meta.env.VITE_API_BASE_URL;
+const resolveImageUrl = (path) => {
+    if (!path) return "";
+    if (/^https?:\/\//i.test(path)) return path;
+    if (path.startsWith("//")) return `https:${path}`;
+    
+    const cleanOrigin = API_ORIGIN.replace(/\/+$/, '');
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    
+    return `${cleanOrigin}${cleanPath}`;
+};;
 
-    const resolveImageUrl = (path) => {
-        if (!path) return "";
-        if (/^https?:\/\//i.test(path)) return path;
-        if (path.startsWith("//")) return `https:${path}`;
-        const normalized = path.startsWith("/") ? path : `/${path}`;
-        return `${API_ORIGIN}${normalized}`;
-    };
-
-    // ✅ جديد: تحديد اللغة الحالية + دالة اختيار الاسم
     const isAr = i18n?.language === 'ar';
     const pickName = (obj, arKey = 'name_ar', enKey = 'name_en') => {
         if (!obj) return '';
@@ -110,17 +111,24 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { 
                         accessorKey: "images", 
                         header: `${t("images")}`,
-                        cell: ({ row }) => {
-                            const imgs = row.original.images || [];
-                            return (
-                                <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
-                                    {imgs.length > 0 ? imgs.map((imgObj, idx) => (
-                                        <img key={idx} src={resolveImageUrl(imgObj.image)} alt="college"
-                                            style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
-                                    )) : <span>-</span>}
-                                </div>
-                            );
-                        }
+                       cell: ({ row }) => {
+    const imgs = row.original.images || [];
+    return (
+        <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+            {imgs.length > 0 ? imgs.map((imgItem, idx) => {
+                const imagePath = typeof imgItem === 'string' ? imgItem : (imgItem.image || imgItem.file || '');
+                const finalUrl = resolveImageUrl(imagePath);
+                
+                return finalUrl ? (
+                    <img key={idx} src={finalUrl} alt="college"
+                        style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} 
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                    />
+                ) : null;
+            }) : <span>-</span>}
+        </div>
+    );
+}
                     },
                     actionColumn,
                 ],
@@ -557,10 +565,11 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "content_ar", label: `${t("content")} (${t("arabic")})`, placeholder: t("content_ar"), type: "textarea", required: false },
                     { name: "content_en", label: `${t("content")} (${t("english")})`, placeholder: t("content_en"), type: "textarea", required: false },
                 ],
-                mapItem: (item) => {
-                    const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
-                }
+               mapItem: (item) => {
+    const uniId = typeof item.university === 'object' ? item.university?.id : item.university;
+    const targetUni = university.find(u => Number(u.id) === Number(uniId));
+    return { ...item, university: targetUni ? pickName(targetUni) : (item.university?.name || item.university) };
+}
             };
 
         // ==================== 16. الطلاب ====================
