@@ -17,7 +17,18 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         { name_en: 'phd',      name_ar: 'دكتوراه'   },
         { name_en: 'diploma',  name_ar: 'دبلوم'     },
     ];
+const API_ORIGIN = import.meta.env.VITE_API_BASE_URL 
 
+const resolveImageUrl = (path) => {
+    if (!path) return "";
+    // رابط مطلق أصلاً
+    if (/^https?:\/\//i.test(path)) return path;
+    // بروتوكول نسبي
+    if (path.startsWith("//")) return `https:${path}`;
+    // رابط نسبي → نضيف origin الـ API
+    const normalized = path.startsWith("/") ? path : `/${path}`;
+    return `${API_ORIGIN}${normalized}`;
+};
     const { openDeleteModal, setContent } = handlers;
 
     const actionColumn = {
@@ -96,7 +107,9 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                             return (
                                 <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
                                     {imgs.length > 0 ? imgs.map((imgObj, idx) => (
-                                        <img key={idx} src={imgObj.image} alt="college" style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                <img key={idx}     src={resolveImageUrl(imgObj.image)}
+ alt="college" 
+ style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
                                     )) : <span>-</span>}
                                 </div>
                             );
@@ -265,7 +278,17 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { accessorKey: "location", header: t("location") },
                     { accessorKey: "description_ar", header: `${t("description")} (${t("arabic")})`, ...renderContentCell("description_ar") },
                     { accessorKey: "description_en", header: `${t("description")} (${t("english")})`, ...renderContentCell("description_en") },
-                    { accessorKey: "image", header: t("image"), cell: ({ row }) => <img src={row.original.image} alt="event" className="image block m-auto !w-[70px]" /> },
+                   {
+    accessorKey: "image",
+    header: t("image"),
+    cell: ({ row }) => {
+        const src = resolveImageUrl(row.original.image);
+        return src
+            ? <img src={src} alt="event" className="image block m-auto !w-[70px]"
+                   onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            : <span>-</span>;
+    }
+},
                     actionColumn,
                 ],
                 fields: [
@@ -278,10 +301,14 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "description_en", placeholder: t("description_en"), type: 'textarea' },
                     { name: "image", placeholder: t("image"), type: 'file' },
                 ],
-                mapItem: (item) => {
-                    const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
-                }
+               mapItem: (item) => {
+    const targetUni = university.find(u => Number(u.id) === Number(item.university));
+    return {
+        ...item,
+        university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university,
+        existing_file: item.image || null,
+    };
+}
             };
 
         // ==================== 8. المقالات (Articles) ====================
@@ -297,7 +324,17 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { accessorKey: "title_en", header: `${t("title")} (${t("english")})`, ...renderContentCell("title_en") },
                     { accessorKey: "content_ar", header: `${t("content")} (${t("arabic")})`, ...renderContentCell("content_ar") },
                     { accessorKey: "content_en", header: `${t("content")} (${t("english")})`, ...renderContentCell("content_en") },
-                    { accessorKey: "image", header: t("image"), cell: ({ row }) => <img src={row.original.image} alt="article" className="image block m-auto !w-[70px]" /> },
+                   {
+    accessorKey: "image",
+    header: t("image"),
+    cell: ({ row }) => {
+        const src = resolveImageUrl(row.original.image);
+        return src
+            ? <img src={src} alt="article" className="image block m-auto !w-[70px]"
+                   onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            : <span>-</span>;
+    }
+},
                     actionColumn,
                 ],
                 fields: [
@@ -308,10 +345,14 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "content_en", placeholder: t("content_en"), type: 'textarea' },
                     { name: "image", placeholder: t("image"), type: 'file' },
                 ],
-                mapItem: (item) => {
-                    const targetUni = university.find(u => Number(u.id) === Number(item.university));
-                    return { ...item, university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university };
-                }
+               mapItem: (item) => {
+    const targetUni = university.find(u => Number(u.id) === Number(item.university));
+    return {
+        ...item,
+        university: targetUni ? (targetUni.name_ar || targetUni.name_en) : item.university,
+        existing_file: item.image || null,
+    };
+}
             };
 
         // ==================== 9. الإعلانات (Advertisements) ====================
@@ -459,8 +500,8 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { accessorKey: "university", header: t("university") },
                     { accessorKey: "name_en", header: `${t("library_name")}(${t("english")})`},
                     { accessorKey: "name_ar", header:`${t("library_name")}(${t("arabic")})` },
-                    { accessorKey: "location_en", header: `${t("location")}(${t("english")})` },
                     { accessorKey: "location_ar", header: `${t("location")}(${t("arabic")})` },
+                    { accessorKey: "location_en", header: `${t("location")}(${t("english")})` },
                     { 
                         accessorKey: "url", 
                         header: t("url"),
@@ -472,8 +513,9 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                     { name: "university", placeholder: t("university"), type: 'select', options: university.map(u => ({ value: u.id, name: u.name_ar || u.name_en })) },
                     { name: "name_en", placeholder: t("name_en"), type: 'text' },
                     { name: "name_ar", placeholder: t("name_ar"), type: 'text' },
+                                        { name: "location_ar", placeholder: t("location_ar"), type: 'text' },
+
                     { name: "location_en", placeholder: t("location_en"), type: 'text' },
-                    { name: "location_ar", placeholder: t("location_ar"), type: 'text' },
                     { name: "access_url", placeholder: t("access_url"), type: 'url' },
                 ],
                 mapItem: (item) => {
@@ -490,7 +532,18 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
                 titleEdit: t("edit_page"),
                 searchKeys: ['slug', 'title_ar', 'title_en'],
                 columns: [
-                    { accessorKey: "university", header: t("university") },
+                    { accessorKey: "university",
+    header: t("university"),
+    cell: ({ row }) => {
+        const raw = row.original.university;
+
+        if (raw && typeof raw === "object") {
+            return raw.name_ar || raw.name_en || "-";
+        }
+
+        const found = university?.find(u => Number(u.id) === Number(raw));
+        return found ? (found.name_ar || found.name_en) : (raw ?? "-");
+    } },
                     { accessorKey: "slug", header: t("slug") },
                     { accessorKey: "title_ar", header: `${t("title")} (${t("arabic")})`, ...renderContentCell("title_ar") },
                     { accessorKey: "title_en", header: `${t("title")} (${t("english")})`, ...renderContentCell("title_en") },

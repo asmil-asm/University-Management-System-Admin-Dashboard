@@ -86,7 +86,7 @@ export const useCrudActions = () => {
                 return response.data;
             },
             onSuccess: () => {
-                queryClient.invalidateQueries( [queryKey] );
+queryClient.invalidateQueries({ queryKey });
                 toast.success(t('Added'));
 if (initialFormValues) {
                 setFormDataDirect(initialFormValues);
@@ -109,7 +109,7 @@ if (initialFormValues) {
                 return response.data;
             },
             onSuccess: () => {
-                queryClient.invalidateQueries( [queryKey] );
+queryClient.invalidateQueries({ queryKey });
                 toast.success(t(successMessage || 'Updated'));
 if (initialFormValues) {
         setFormDataDirect(initialFormValues);
@@ -131,7 +131,7 @@ if (initialFormValues) {
                 return response.data;
             },
             onSuccess: () => {
-                queryClient.invalidateQueries( [queryKey] );
+queryClient.invalidateQueries({ queryKey });
                 toast.success(t('Deleted'));
                 setShowDelete(false);
             },

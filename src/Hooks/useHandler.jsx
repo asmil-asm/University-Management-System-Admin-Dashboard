@@ -1,13 +1,13 @@
 import { useCrudActions } from "./useCrudActions";
 import { useChange } from "../store/useChange";
 
-const useHandler = () => {
+const useHandler = ({listQueryKey}) => {
     const { useAdd, useDelete, useUpdate } = useCrudActions();
     const { selectedIdToDelete, setSelectedIdToDelete,resetForm } = useChange();
 
-    const addMutation = useAdd({ queryKey:['add'], initialFormValues: {} });
-    const updateMutation = useUpdate({ queryKey:['update'], initialFormValues: {} });
-    const deleteMutation = useDelete({queryKey:['delete']});
+    const addMutation    = useAdd({ queryKey: listQueryKey, initialFormValues: {} });
+    const updateMutation = useUpdate({ queryKey: listQueryKey, initialFormValues: {} });
+    const deleteMutation = useDelete({ queryKey: listQueryKey });
 
     const handelAdd = (url, data) => {
         addMutation.mutate({ url, data });
