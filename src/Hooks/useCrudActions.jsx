@@ -4,15 +4,40 @@ import API from '../services/API';
 import { useChange } from '../store/useChange';
 import { queryClient } from '../lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
+
 const FILE_RELATED_KEYS = [
     'image', 'images', 'file', 'form_file', 'student_file', 'cv',
     'existing_file', 'attachment'
 ];
 
+const RESOURCE_TO_QUERY_KEY = {
+    'universities': 'university',
+    'students': 'student',
+    'applications': 'application',
+    'applicationsStudent': 'applictionStudent', 
+    'job-postings': 'jopPosting',
+    'languages': 'language',
+    'contact-messages': 'contact',
+    'social-media': 'socialMedia',
+    'admissions-info': 'admissions',
+};
+
+const normalizeQueryKey = (queryKey) => {
+    if (!queryKey) return queryKey;
+    if (Array.isArray(queryKey) && queryKey.length > 0) {
+        const first = queryKey[0];
+        const mapped = RESOURCE_TO_QUERY_KEY[first] || first;
+        return [mapped, ...queryKey.slice(1)];
+    }
+    if (typeof queryKey === 'string') {
+        return RESOURCE_TO_QUERY_KEY[queryKey] || queryKey;
+    }
+    return queryKey;
+};
+
 const prepareApiData = (data) => {
     if (data instanceof FormData) return data;
 
-    
     const needsFormData = 'existing_file' in data
         || Object.keys(data).some(k => FILE_RELATED_KEYS.includes(k) && data[k] === null);
 
@@ -48,7 +73,7 @@ const prepareApiData = (data) => {
 
 export const useCrudActions = () => {
     const { t } = useTranslation();
-    const { setShowAdd, setShowEidte, setShowDelete, setFormDataDirect,resetForm} = useChange();
+    const { setShowAdd, setShowEidte, setShowDelete, setFormDataDirect, resetForm } = useChange();
 
     const handleError = (error) => {
         console.error(error);
@@ -69,15 +94,11 @@ export const useCrudActions = () => {
 
     const getConfig = (isFormData = false) => {
         const token = localStorage.getItem("access");
-        
         if (isFormData) {
             return {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                }
+                headers: { 'Authorization': `Bearer ${token}` }
             };
         }
-
         return {
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -91,19 +112,22 @@ export const useCrudActions = () => {
             mutationFn: async ({ url, data }) => {
                 const processedData = prepareApiData(data);
                 const isFormData = processedData instanceof FormData;
-                
                 const config = getConfig(isFormData);
                 const response = await API.post(url, processedData, config);
                 return response.data;
             },
             onSuccess: () => {
-queryClient.invalidateQueries({ queryKey });
+                queryClient.invalidateQueries({
+                    queryKey: normalizeQueryKey(queryKey),
+                    refetchType: 'all',
+                });
                 toast.success(t('Added'));
-if (initialFormValues) {
-                setFormDataDirect(initialFormValues);
-            } else {
-                resetForm();   
-            }                setShowAdd(false);
+                if (initialFormValues) {
+                    setFormDataDirect(initialFormValues);
+                } else {
+                    resetForm();
+                }
+                setShowAdd(false);
             },
             onError: handleError
         });
@@ -114,21 +138,22 @@ if (initialFormValues) {
             mutationFn: async ({ id, data, url }) => {
                 const processedData = prepareApiData(data);
                 const isFormData = processedData instanceof FormData;
-
                 const config = getConfig(isFormData);
                 const response = await API.patch(`${url}${id}/`, processedData, config);
                 return response.data;
             },
             onSuccess: () => {
-queryClient.invalidateQueries({ queryKey });
+                queryClient.invalidateQueries({
+                    queryKey: normalizeQueryKey(queryKey),
+                    refetchType: 'all',
+                });
                 toast.success(t(successMessage || 'Updated'));
-if (initialFormValues) {
-        setFormDataDirect(initialFormValues);
-    } else {
-        resetForm();
-    }                setShowEidte(false);
-
-                
+                if (initialFormValues) {
+                    setFormDataDirect(initialFormValues);
+                } else {
+                    resetForm();
+                }
+                setShowEidte(false);
             },
             onError: handleError,
         });
@@ -142,7 +167,10 @@ if (initialFormValues) {
                 return response.data;
             },
             onSuccess: () => {
-queryClient.invalidateQueries({ queryKey });
+                queryClient.invalidateQueries({
+                    queryKey: normalizeQueryKey(queryKey),
+                    refetchType: 'all',
+                });
                 toast.success(t('Deleted'));
                 setShowDelete(false);
             },
