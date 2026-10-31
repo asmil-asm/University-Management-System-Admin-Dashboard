@@ -4,9 +4,17 @@ import API from '../services/API';
 import { useChange } from '../store/useChange';
 import { queryClient } from '../lib/queryClient';
 import { useMutation } from '@tanstack/react-query';
+const FILE_RELATED_KEYS = [
+    'image', 'images', 'file', 'form_file', 'student_file', 'cv',
+    'existing_file', 'attachment'
+];
 
 const prepareApiData = (data) => {
     if (data instanceof FormData) return data;
+
+    
+    const needsFormData = 'existing_file' in data
+        || Object.keys(data).some(k => FILE_RELATED_KEYS.includes(k) && data[k] === null);
 
     let hasFile = false;
     const formData = new FormData();
@@ -14,7 +22,7 @@ const prepareApiData = (data) => {
     for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             const value = data[key];
-            
+
             if (key === 'existing_file') continue;
 
             if (value instanceof File || value instanceof Blob) {
@@ -34,7 +42,8 @@ const prepareApiData = (data) => {
             }
         }
     }
-    return hasFile ? formData : data;
+
+    return (hasFile || needsFormData) ? formData : data;
 };
 
 export const useCrudActions = () => {
