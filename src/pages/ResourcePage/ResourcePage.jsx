@@ -55,7 +55,7 @@ const ResourcePage = () => {
     const {
         handelAdd, handleUpdate, confirmDelete,
         isAdding, isUpdating, isDeleting,
-    } = useHandler(dataKey);
+    } = useHandler({ listQueryKey: dataKey });
 
     const openDeleteModal =useCallback((id) => {
         setSelectedIdToDelete(id);

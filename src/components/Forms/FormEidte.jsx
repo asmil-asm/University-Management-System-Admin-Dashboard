@@ -46,12 +46,12 @@ function FormEidte({ title, fields, onUpdate, isPending }) {
                                 {formData?.existing_file && (
                                     <div style={{ marginBottom: '8px', fontSize: '13px' }}>
                                         <span className={mood ? 'text-gray-400' : 'text-gray-600'}>{t("current_file")}: </span>
-                                        <a 
-                                            href={`https://university-management-system-607v.onrender.com${formData.existing_file}`} 
-                                            target="_blank" 
-                                            rel="noreferrer"
-                                            style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
-                                        >
+                                      <a 
+    href={`https://university-management-system-607v.onrender.com${formData.existing_file}`} 
+    target="_blank" 
+    rel="noreferrer"
+    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}
+>
                                             {t("view_file") || "View File"}
                                         </a>
                                     </div>
