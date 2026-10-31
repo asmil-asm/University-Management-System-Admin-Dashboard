@@ -1,20 +1,22 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';   // ⬅️ استبدل useParams
+import { useLocation } from 'react-router-dom';
 import PageTransition from '../../components/PageTransition/PageTransition';
-import Tables from "../../components/Tables/Tables";
-import SearchAdd from "../../components/SearchAdd/SearchAdd";
+import Tables from '../../components/Tables/Tables';
+import SearchAdd from '../../components/SearchAdd/SearchAdd';
 import FormEidte from '../../components/Forms/FormEidte';
 import FormAdd from '../../components/Forms/FormAdd';
 import DeleteModel from '../../components/DeleteModel/DeleteModel';
 import { useChange } from '../../store/useChange';
 import { useDashboard } from '../../Hooks/useDashboard';
 import useHandler from '../../Hooks/useHandler';
-import Content from '../../components/content/Content'
+import Content from '../../components/content/Content';
 import { getDashboardConfig } from '../../lib/dashboardConfigs';
-import { useCallback } from 'react';
 import { DATA_KEY_MAP } from '../../lib/keys';
 import './ResourcePage.css';
+
+const EMPTY_ARRAY = [];
+
 const RESOURCE_DEPENDENCIES = {
     universities:           [],
     colleges:               ['university'],
@@ -38,14 +40,26 @@ const RESOURCE_DEPENDENCIES = {
     applications:           ['jopPosting'],
     'student-applications': ['programs'],
 };
+
 const ResourcePage = () => {
     const location = useLocation();
-    const resourceType = location.pathname.split('/').filter(Boolean).pop();
-    const dataKey = DATA_KEY_MAP[resourceType] || resourceType;
-        const neededKeys = RESOURCE_DEPENDENCIES[resourceType] ||[];
-    const dashboardData = useDashboard(neededKeys);
-        const rowData = dashboardData?.[dataKey] ?? [];
     const { t, i18n } = useTranslation();
+
+    const resourceType = useMemo(
+        () => location.pathname.split('/').filter(Boolean).pop(),
+        [location.pathname]
+    );
+
+    const dataKey = DATA_KEY_MAP[resourceType] || resourceType;
+
+    const neededKeys = useMemo(() => {
+        const deps = RESOURCE_DEPENDENCIES[resourceType] || EMPTY_ARRAY;
+        return Array.from(new Set([...deps, dataKey].filter(Boolean)));
+    }, [resourceType, dataKey]);
+
+    const dashboardData = useDashboard(neededKeys);
+
+    const rowData = dashboardData?.[dataKey] ?? EMPTY_ARRAY;
 
     const {
         search, showEidte, showAdd, showDelete, formData,
@@ -57,52 +71,55 @@ const ResourcePage = () => {
         isAdding, isUpdating, isDeleting,
     } = useHandler({ listQueryKey: dataKey });
 
-    const openDeleteModal =useCallback((id) => {
+    const openDeleteModal = useCallback((id) => {
         setSelectedIdToDelete(id);
         setShowDelete(true);
-    },[setShowDelete,setSelectedIdToDelete]);
+    }, [setShowDelete, setSelectedIdToDelete]);
 
-    
     const {
-    university = [],
-    colleges = [],
-    departments = [],
-    programs = [],
-    staff = [],
-    jopPosting = [],
-} = dashboardData || {};
-
+        university = EMPTY_ARRAY,
+        colleges = EMPTY_ARRAY,
+        departments = EMPTY_ARRAY,
+        programs = EMPTY_ARRAY,
+        staff = EMPTY_ARRAY,
+        jopPosting = EMPTY_ARRAY,
+    } = dashboardData || {};
 
     const config = useMemo(
         () => getDashboardConfig(
             resourceType,
             t,
-        { university, colleges, departments, programs, staff, jopPosting },
+            { university, colleges, departments, programs, staff, jopPosting },
             { openDeleteModal, setContent },
             i18n
         ),
-        [resourceType, t, i18n.language,
-        university, colleges, departments, programs, staff, jopPosting,
-        openDeleteModal, setContent]   
+        [
+            resourceType, t, i18n, i18n.language,
+            university, colleges, departments, programs, staff, jopPosting,
+            openDeleteModal, setContent,
+        ]
     );
 
-const filterData = useMemo(() => {
-    if (!config) return [];
+    const filterData = useMemo(() => {
+        if (!config) return EMPTY_ARRAY;
 
-    const mapped = (rowData || []).map((item) =>
-        config.mapItem ? config.mapItem(item) : item
-    );
+        const source = rowData || EMPTY_ARRAY;
+        const searchTerm = String(search ?? '').toLowerCase().trim();
+        const searchKeys = config.searchKeys ?? EMPTY_ARRAY;
 
-    const searchTerm = (search || "").toLowerCase();
-    if (!searchTerm) return mapped;
+        const filtered = !searchTerm || searchKeys.length === 0
+            ? source
+            : source.filter((item) =>
+                searchKeys.some((key) => {
+                    const val = key.split('.').reduce((acc, k) => acc?.[k], item);
+                    return String(val ?? '').toLowerCase().includes(searchTerm);
+                })
+            );
 
-    return mapped.filter((item) =>
-        config.searchKeys.some((key) => {
-            const val = key.split('.').reduce((acc, k) => acc?.[k], item);
-            return String(val ?? "").toLowerCase().includes(searchTerm);
-        })
-    );
-}, [config, search, rowData]);
+        return filtered.map((item) =>
+            config.mapItem ? config.mapItem(item) : item
+        );
+    }, [config, search, rowData]);
 
     if (!config) return <div>Invalid Resource Type: {resourceType}</div>;
 

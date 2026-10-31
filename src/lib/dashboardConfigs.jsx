@@ -580,11 +580,28 @@ const resolveImageUrl = (path) => {
                     { name: "content_ar", label: `${t("content")} (${t("arabic")})`, placeholder: t("content_ar"), type: "textarea", required: false },
                     { name: "content_en", label: `${t("content")} (${t("english")})`, placeholder: t("content_en"), type: "textarea", required: false },
                 ],
-               mapItem: (item) => {
-    const uniId = typeof item.university === 'object' ? item.university?.id : item.university;
-    const targetUni = university.find(u => Number(u.id) === Number(uniId));
-    return { ...item, university: targetUni ? pickName(targetUni) : (item.university?.name || item.university) };
-}
+ mapItem: (item) => {
+    const raw = item.university;
+
+    // ملاحظة: typeof null === 'object' في JS، لذلك نتحقق من null أولًا
+    const uniId = raw !== null && typeof raw === 'object' ? raw.id : raw;
+
+    const targetUni = uniId != null
+        ? university.find((u) => Number(u.id) === Number(uniId))
+        : null;
+
+    let displayName;
+
+    if (targetUni) {
+        displayName = pickName(targetUni);
+    } else if (raw !== null && typeof raw === 'object') {
+        displayName = raw.name_ar || raw.name_en || raw.name || null;
+    } else {
+        displayName = uniId ?? null;
+    }
+
+    return { ...item, university: displayName };
+},
             };
 
         // ==================== 16. الطلاب ====================

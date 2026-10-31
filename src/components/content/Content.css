@@ -4,11 +4,11 @@
 
 }
 .content .box{
- @apply w-[400px] p-8 rounded-2xl shadow-xl
+ @apply w-[400px] p-10 rounded-2xl shadow-xl
  max-md:w-[300px] h-[500px] bg-white;
 }
 .content .box p{
-    @apply break-words mt-[50px]
+    @apply break-words my-[100px]
 }
 
 .cancel{
