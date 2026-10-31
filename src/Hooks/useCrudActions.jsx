@@ -17,16 +17,18 @@ const prepareApiData = (data) => {
             
             if (key === 'existing_file') continue;
 
-            if (key === 'form_file' && !(value instanceof File || value instanceof Blob)) {
-                continue; 
-            }
-
             if (value instanceof File || value instanceof Blob) {
                 hasFile = true;
                 formData.append(key, value);
-            } else if (Array.isArray(value) && value.some(item => item instanceof File)) {
-                hasFile = true;
-                value.forEach(item => formData.append(key, item));
+            } else if (Array.isArray(value)) {
+                value.forEach(item => {
+                    if (item instanceof File || item instanceof Blob) {
+                        hasFile = true;
+                        formData.append(key, item);
+                    } else {
+                        formData.append(key, item);
+                    }
+                });
             } else if (value !== null && value !== undefined) {
                 formData.append(key, value);
             }
