@@ -21,14 +21,22 @@ const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || '';
 
 const resolveImageUrl = (path) => {
     if (!path) return "";
-    if (/^https?:\/\//i.test(path)) return path;
+    
+    if (/^https?:\/\//i.test(path)) {
+        const parts = path.split('https://');
+        if (parts.length > 2) {
+            return `https://${parts[parts.length - 1]}`;
+        }
+        return path;
+    }
+    
     if (path.startsWith("//")) return `https:${path}`;
     
     const baseDomain = API_ORIGIN.split('/api/v1')[0].replace(/\/+$/, '');
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
     
     return `${baseDomain}${cleanPath}`;
-};
+};;
 
     const isAr = i18n?.language === 'ar';
     const pickName = (obj, arKey = 'name_ar', enKey = 'name_en') => {
@@ -595,9 +603,7 @@ const resolveImageUrl = (path) => {
                             const filePath = row.original?.student_file || row.original?.existing_file;
                             if (!filePath) return "-";
 
-                            const fileUrl = filePath.startsWith('http') 
-                                ? filePath 
-                                : `${import.meta.env.VITE_API_BASE_URL}${filePath}`;
+                            const fileUrl = resolveImageUrl(filePath);
 
                             return (
                                 <a href={fileUrl} target="_blank" rel="noreferrer" className="view-file-link"
@@ -830,9 +836,7 @@ const resolveImageUrl = (path) => {
                         cell: ({ row }) => {
                             const filePath = row.original?.form_file || row.original?.existing_file;
                             if (!filePath) return "-";
-                            const fileUrl = filePath.startsWith('http')
-                                ? filePath
-                                : `${import.meta.env.VITE_API_BASE_URL}${filePath}`;
+                           const fileUrl = resolveImageUrl(filePath);
                             return (
                                 <a href={fileUrl} target="_blank" rel="noreferrer" className="view-file-link"
                                    style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: '500' }}>
