@@ -17,21 +17,28 @@ export const getDashboardConfig = (resourceType, t, optionsData = {}, handlers =
         { name_en: 'phd',      name_ar: 'دكتوراه'   },
         { name_en: 'diploma',  name_ar: 'دبلوم'     },
     ];
-const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || '';
 
 const resolveImageUrl = (path) => {
     if (!path) return "";
     
-    if (/^https?:\/\//i.test(path)) {
-        const parts = path.split('https://');
-        if (parts.length > 2) {
-            return `https://${parts[parts.length - 1]}`;
-        }
-        return path;
+    if (typeof path === 'object') {
+        path = path.image || path.file || path.url || path.cv || path.student_file || '';
     }
     
-    if (path.startsWith("//")) return `https:${path}`;
+    if (typeof path !== 'string' || !path.trim()) return "";
+
+    if (path.includes('http://') || path.includes('https://')) {
+        const cleanDuplicated = path.replace(/https?:\/\/[^\/]+https?:\/\//i, 'https://');
+        
+        const matches = cleanDuplicated.match(/https?:\/\/[^\s]+/g);
+        if (matches && matches.length > 0) {
+            let finalUrl = matches[matches.length - 1];
+            return finalUrl.replace(/([^:]\/)\/+/g, "$1");
+        }
+        return cleanDuplicated.replace(/([^:]\/)\/+/g, "$1");
+    }
     
+    const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || 'https://university-management-system-607v.onrender.com';
     const baseDomain = API_ORIGIN.split('/api/v1')[0].replace(/\/+$/, '');
     const cleanPath = path.startsWith("/") ? path : `/${path}`;
     
