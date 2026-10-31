@@ -580,28 +580,10 @@ const resolveImageUrl = (path) => {
                     { name: "content_ar", label: `${t("content")} (${t("arabic")})`, placeholder: t("content_ar"), type: "textarea", required: false },
                     { name: "content_en", label: `${t("content")} (${t("english")})`, placeholder: t("content_en"), type: "textarea", required: false },
                 ],
-mapItem: (item) => {
-    if (item.university_name) {
-        return { ...item, university: item.university_name };
-    }
-
-    const raw = item.university;
-    if (raw == null) {
-        return { ...item, university: null };
-    }
-
-    const uniId = typeof raw === 'object' ? raw.id : raw;
-    const target = uniId != null
-        ? university.find((u) => Number(u.id) === Number(uniId))
-        : null;
-
-    return {
-        ...item,
-        university: target
-            ? pickName(target)
-            : (raw?.name_ar || raw?.name_en || uniId || null),
-    };
-},
+     mapItem: (item) => {
+                    const targetUni = university.find(u => Number(u.id) === Number(item.university));
+                    return { ...item, university: targetUni ? pickName(targetUni) : item.university };
+                }
             };
 
         // ==================== 16. الطلاب ====================
