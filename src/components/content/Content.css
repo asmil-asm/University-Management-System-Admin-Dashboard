@@ -8,7 +8,7 @@
  max-md:w-[300px] h-[500px] bg-white;
 }
 .content .box p{
-    @apply break-words my-[100px]
+    @apply break-words my-[100px] py-10
 }
 
 .cancel{
