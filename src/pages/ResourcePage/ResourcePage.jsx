@@ -13,6 +13,7 @@ import useHandler from '../../Hooks/useHandler';
 import Content from '../../components/content/Content';
 import { getDashboardConfig } from '../../lib/dashboardConfigs';
 import { DATA_KEY_MAP } from '../../lib/keys';
+import Loading from '../../components/Loading/Loading';
 import './ResourcePage.css';
 
 const EMPTY_ARRAY = [];
@@ -58,6 +59,7 @@ const ResourcePage = () => {
     }, [resourceType, dataKey]);
 
     const dashboardData = useDashboard(neededKeys);
+    const isLoading = dashboardData?.isLoading;          // ✅ الجديد
 
     const rowData = dashboardData?.[dataKey] ?? EMPTY_ARRAY;
 
@@ -123,7 +125,7 @@ const ResourcePage = () => {
     }, [config, search, rowData]);
 
     if (!config) return <div>Invalid Resource Type: {resourceType}</div>;
-
+if(isLoading) return <Loading />; 
     return (
         <PageTransition>
             <div className='page'>
