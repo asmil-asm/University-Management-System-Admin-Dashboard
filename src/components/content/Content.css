@@ -5,10 +5,10 @@
 }
 .content .box{
  @apply w-[400px] p-10 rounded-2xl shadow-xl
- max-md:w-[300px] h-[500px] bg-white;
+ max-md:w-[300px] h-[550px] bg-white;
 }
 .content .box p{
-    @apply break-words my-[100px] py-10
+    @apply break-words my-[70px] py-8
 }
 
 .cancel{

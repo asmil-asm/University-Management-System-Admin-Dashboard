@@ -19,10 +19,11 @@ return res.data.results ?? res.data ?? [];
     }
 
 }
-export const useGetData=({key,endpoint})=>{
+export const useGetData=({key,endpoint,enabled=true})=>{
 return useQuery ({
     queryKey:[key],
-    queryFn:()=>getData(endpoint,key)
+    queryFn:()=>getData(endpoint,key),
+     enabled
     
 })
 }

@@ -3,7 +3,7 @@ import { useChange } from "../store/useChange";
 
 const useHandler = ({listQueryKey}) => {
     const { useAdd, useDelete, useUpdate } = useCrudActions();
-    const { selectedIdToDelete, setSelectedIdToDelete,resetForm } = useChange();
+    const { selectedIdToDelete, setSelectedIdToDelete} = useChange();
 
     const addMutation    = useAdd({ queryKey: listQueryKey, initialFormValues: {} });
     const updateMutation = useUpdate({ queryKey: listQueryKey, initialFormValues: {} });
@@ -11,7 +11,6 @@ const useHandler = ({listQueryKey}) => {
 
     const handelAdd = (url, data) => {
         addMutation.mutate({ url, data });
-        resetForm()
     };
 
     const handleUpdate = (id, data, url) => {
