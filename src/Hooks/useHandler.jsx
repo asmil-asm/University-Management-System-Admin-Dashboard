@@ -5,8 +5,8 @@ const useHandler = ({listQueryKey}) => {
     const { useAdd, useDelete, useUpdate } = useCrudActions();
     const { selectedIdToDelete, setSelectedIdToDelete} = useChange();
 
-    const addMutation    = useAdd({ queryKey: listQueryKey, initialFormValues: {} });
-    const updateMutation = useUpdate({ queryKey: listQueryKey, initialFormValues: {} });
+    const addMutation    = useAdd({ queryKey: listQueryKey });
+    const updateMutation = useUpdate({ queryKey: listQueryKey });
     const deleteMutation = useDelete({ queryKey: listQueryKey });
 
     const handelAdd = (url, data) => {
@@ -18,7 +18,7 @@ updateMutation.mutate({ id, data, url });
     };
 
     const confirmDelete = (url) => {
-        if (!selectedIdToDelete) return;
+        if (selectedIdToDelete == null) return; 
         deleteMutation.mutate({ id: selectedIdToDelete, url });
         setSelectedIdToDelete(null);
     };

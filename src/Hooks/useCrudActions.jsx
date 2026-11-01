@@ -30,9 +30,10 @@ const normalizeQueryKey = (queryKey) => {
         return [mapped, ...queryKey.slice(1)];
     }
     if (typeof queryKey === 'string') {
-        return RESOURCE_TO_QUERY_KEY[queryKey] || queryKey;
+        const mapped = RESOURCE_TO_QUERY_KEY[queryKey] || queryKey;
+        return [mapped];
     }
-    return queryKey;
+    return [queryKey];
 };
 
 const prepareApiData = (data) => {
@@ -48,8 +49,10 @@ const prepareApiData = (data) => {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
             const value = data[key];
 
-            if (key === 'existing_file') continue;
-
+if (key === 'existing_file') {
+    if (value === null) formData.append('existing_file', '');
+    continue;
+}
             if (value instanceof File || value instanceof Blob) {
                 hasFile = true;
                 formData.append(key, value);
