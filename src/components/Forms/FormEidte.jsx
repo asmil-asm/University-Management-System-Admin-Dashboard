@@ -6,6 +6,17 @@ function FormEidte({ title, fields, onUpdate, isPending }) {
     const { t } = useTranslation();
     const { setShowEidte, mood, formData, setFormData } = useChange();
 
+    const getFileUrl = (path) => {
+        if (!path) return "";
+        if (path.startsWith('http://') || path.startsWith('https://')) {
+            return path;
+        }
+        const API_ORIGIN = import.meta.env.VITE_API_BASE_URL || 'https://university-management-system-607v.onrender.com';
+        const baseDomain = API_ORIGIN.split('/api/v1')[0].replace(/\/+$/, '');
+        const cleanPath = path.startsWith("/") ? path : `/${path}`;
+        return `${baseDomain}${cleanPath}`;
+    };
+
     return (
         <div className="form-container">
             <div className={`form-box ${mood ? 'bg-[var(--color-dark-main)]' : 'bg-white'}`}>
@@ -42,12 +53,11 @@ function FormEidte({ title, fields, onUpdate, isPending }) {
                             />
                         ) : field.type === 'file' ? (
                             <div className="file-input-wrapper">
-                                {/* التعديل هنا: الفحص يتم عبر existing_file الذي خزناه في الـ mapItem */}
                                 {formData?.existing_file && (
                                     <div style={{ marginBottom: '8px', fontSize: '13px' }}>
                                         <span className={mood ? 'text-gray-400' : 'text-gray-600'}>{t("current_file")}: </span>
-                                     <a href={`https://university-management-system-607v.onrender.com${formData.existing_file}`}>
-
+                                        {/* ✅ استخدام الدالة هنا لحل المشكلة */}
+                                        <a href={getFileUrl(formData.existing_file)} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                                             {t("view_file") || "View File"}
                                         </a>
                                     </div>
