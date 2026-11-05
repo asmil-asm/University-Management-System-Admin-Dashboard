@@ -4,7 +4,6 @@ import PageTransition from '../../components/PageTransition/PageTransition';
 import { useTranslation } from 'react-i18next';
 import { useChange } from '../../store/useChange';
 import useLogin from '../../Hooks/useLogin';
-import Loading from '../../components/Loading/Loading';
 
 const Login = () => { 
 
@@ -18,7 +17,6 @@ e.preventDefault();
     login(form);
   }
 
-  if(isLoading) return <Loading/>
 
   return (
     <div className='login'>
@@ -39,6 +37,7 @@ e.preventDefault();
                 name='username' 
                 value={form.username} 
                 autoComplete="username"
+                disabled={isLoading}
               />
               
               <label>{t('Password')}:</label>
@@ -49,14 +48,15 @@ e.preventDefault();
                 name='password' 
                 value={form.password} 
                 autoComplete="current-password"
+                disabled={isLoading}
               />
               <div className='flex flex-col'>
 <span>admin</span>
 <span>admin123</span>
               </div>
-              <button className={isLoading?'bg-gray-400':''} type="submit" >
-                { isLoading ? t('Login...') :t('Login')}
-              </button>
+             <button className={isLoading ? 'bg-gray-400' : ''} type="submit" disabled={isLoading}>
+  {isLoading ? t('Login...') : t('Login')}
+</button>
             </form>
           </div>
         </div>
