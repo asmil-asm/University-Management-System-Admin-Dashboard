@@ -4,7 +4,7 @@ import PageTransition from '../../components/PageTransition/PageTransition';
 import { useTranslation } from 'react-i18next';
 import { useChange } from '../../store/useChange';
 import useLogin from '../../Hooks/useLogin';
-import Loading from '../../../../Website-university-local/src/components/Loading/Loading';
+import Loading from '../../components/Loading/Loading';
 
 const Login = () => { 
 

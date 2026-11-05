@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useIsFetching } from "@tanstack/react-query" 
 import './Dashboard.css'
 import { useChange } from '../../store/useChange';
-import Loading from '../../../../Website-university-local/src/components/Loading/Loading';
+import Loading from '../../components/Loading/Loading';
 const Dashboard=()=>{
 const {mood}=useChange()
 const {t} = useTranslation()
