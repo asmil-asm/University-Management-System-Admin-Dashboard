@@ -7,16 +7,16 @@ import PageTransition from '../../components/PageTransition/PageTransition'
 import RecentApplications from '../../components/RecentApplications/RecentApplications'
 import Messages from '../../components/Messages/Messages';
 import QuickActions from '../../components/QuickActions/QuickActions';
-
-
 import { useTranslation } from 'react-i18next';
+import { useIsFetching } from "@tanstack/react-query" 
 import './Dashboard.css'
-
 import { useChange } from '../../store/useChange';
+import Loading from '../../../../Website-university-local/src/components/Loading/Loading';
 const Dashboard=()=>{
 const {mood}=useChange()
 const {t} = useTranslation()
-
+const fetchData=useIsFetching()
+if(fetchData>0) return <Loading/>
 return (
     <PageTransition>
     <div className="dashboard">
