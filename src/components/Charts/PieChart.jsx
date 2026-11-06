@@ -1,3 +1,4 @@
+import  { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { useChange } from '../../store/useChange';
@@ -9,6 +10,14 @@ const PieCharts = () => {
   const { mood, language } = useChange();
   const { colleges } = useDashboard();
   const { t } = useTranslation();
+
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const safeColleges = Array.isArray(colleges) ? colleges : [];
 
@@ -23,23 +32,28 @@ const PieCharts = () => {
 
   const hasData = college.length > 0;
 
+  const isMobile = windowWidth < 640;
+  const outerRadius = isMobile ? 70 : 110;
+  const innerRadius = isMobile ? 35 : 60;
+  const chartHeight = isMobile ? 320 : 400;
+
   return (
     <div 
       dir="ltr" 
-      className={`pie charts ${mood ? 'bg-[var(--color-dark-main)]' : 'bg-white'}`}
-      style={{ width: '100%', minHeight: '400px' }}
+      className={`pie charts w-full ${mood ? 'bg-[var(--color-dark-main)]' : 'bg-white'}`}
+      style={{ minHeight: `${chartHeight}px`, padding: '10px' }}
     >
       {hasData ? (
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={chartHeight}>
           <PieChart>
             <Pie
               data={college}
               cx="50%"
-              cy="45%"
+              cy="42%"
               labelLine={false}
               label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              outerRadius={110}
-              innerRadius={60}
+              outerRadius={outerRadius}
+              innerRadius={innerRadius}
               paddingAngle={3}
               fill="#8884d8"
               dataKey="value"
@@ -51,12 +65,21 @@ const PieCharts = () => {
                 />
               ))}
             </Pie>
-            <Tooltip formatter={(value, name, entry) => [value, entry.payload.name]} />
+            <Tooltip 
+              formatter={(value, name, entry) => [value, entry.payload.name]} 
+              contentStyle={{ fontSize: isMobile ? '12px' : '14px', borderRadius: '8px' }}
+            />
             <Legend 
               verticalAlign="bottom" 
               height={36}
               iconType="circle"
-              wrapperStyle={{ fontSize: '14px', paddingTop: '10px' }}
+              wrapperStyle={{ 
+                fontSize: isMobile ? '11px' : '13px', 
+                paddingTop: '10px',
+                width: '100%',
+                whiteSpace: 'nowrap',
+                overflowX: 'auto'
+              }}
             />
           </PieChart>
         </ResponsiveContainer>
