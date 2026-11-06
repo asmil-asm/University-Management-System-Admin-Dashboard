@@ -16,6 +16,9 @@
     "admission": "Admission",
     "services": "Services",
     "libraries": "Libraries",
+     "Login":"Login",
+      "Login...":"Login...",
+
     "social_media": "Social Media",
     "pages": "Pages",
     "contact_message": "Contact Message",

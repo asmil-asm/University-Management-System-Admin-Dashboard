@@ -14,7 +14,7 @@ const applyDirection = (lng) => {
   const isRTL = lng?.startsWith("ar");
 
   document.documentElement.dir = isRTL ? "rtl" : "ltr";
-  document.documentElement.lang = lng || "ar";
+ document.documentElement.lang = lng || "en";
 };
 
 i18n.on("languageChanged", applyDirection);
@@ -23,11 +23,11 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: "ar",
+    lng: "en",
     fallbackLng: "en",
     interpolation: { escapeValue: false },
   });
 
-applyDirection(i18n.language || "ar");
+applyDirection(i18n.language || "en");
 
 export default i18n;
